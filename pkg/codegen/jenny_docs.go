@@ -100,18 +100,24 @@ type templateData struct {
 // Copied from https://github.com/marcusolsson/json-schema-docs and slightly changed to fit the DocsJenny
 
 type schema struct {
-	ID          string             `json:"$id,omitempty"`
-	Ref         string             `json:"$ref,omitempty"`
-	Schema      string             `json:"$schema,omitempty"`
-	Title       string             `json:"title,omitempty"`
-	Description string             `json:"description,omitempty"`
-	Required    []string           `json:"required,omitempty"`
-	Type        PropertyTypes      `json:"type,omitempty"`
-	Properties  map[string]*schema `json:"properties,omitempty"`
-	Items       *schema            `json:"items,omitempty"`
-	Definitions map[string]*schema `json:"definitions,omitempty"`
-	Enum        []Any              `json:"enum"`
-	Default     any                `json:"default"`
+	ID               string             `json:"$id,omitempty"`
+	Ref              string             `json:"$ref,omitempty"`
+	Schema           string             `json:"$schema,omitempty"`
+	Title            string             `json:"title,omitempty"`
+	Description      string             `json:"description,omitempty"`
+	Required         []string           `json:"required,omitempty"`
+	Type             PropertyTypes      `json:"type,omitempty"`
+	Properties       map[string]*schema `json:"properties,omitempty"`
+	Items            *schema            `json:"items,omitempty"`
+	Definitions      map[string]*schema `json:"definitions,omitempty"`
+	Enum             []Any              `json:"enum"`
+	Default          any                `json:"default"`
+	Maximum          any                `json:"maximum"`
+	ExclusiveMinimum bool               `json:"exclusiveMinimum"`
+	Minimum          any                `json:"minimum"`
+	ExclusiveMaximum bool               `json:"exclusiveMaximum"`
+	MinLength        uint               `json:"minLength"`
+	MaxLength        uint               `json:"maxLength"`
 }
 
 func jsonToMarkdown(jsonData []byte, tpl string, kindName string) ([]byte, error) {
@@ -381,6 +387,7 @@ func printProperties(w io.Writer, s *schema) {
 			desc += fmt.Sprintf(" Default: `%v`.", p.Default)
 		}
 
+		desc += constraints(p)
 		rows = append(rows, []string{fmt.Sprintf("`%s`", k), propTypeStr, required, formatForTable(desc)})
 	}
 
@@ -397,6 +404,40 @@ func printProperties(w io.Writer, s *schema) {
 
 	table.AppendBulk(rows)
 	table.Render()
+}
+
+func constraints(s *schema) string {
+	// TODO: check case when val > 100 in cue - are both values set?
+	if s.Minimum != nil && s.Maximum != nil {
+		left := fmt.Sprintf("%.20g ", s.Minimum)
+
+		if s.ExclusiveMinimum {
+			left += "<"
+		} else {
+			left += "<="
+		}
+
+		right := ""
+		if s.ExclusiveMaximum {
+			right += "<"
+		} else {
+			right += "<="
+		}
+		right += fmt.Sprintf(" %.20g", s.Maximum)
+		return fmt.Sprintf("\nConstraint: `%s val %s`.", left, right)
+	}
+
+	if s.MinLength > 0 {
+		left := fmt.Sprintf("%v <=", s.MinLength)
+		right := ""
+
+		if s.MaxLength > 0 {
+			right = fmt.Sprintf("<= %v", s.MaxLength)
+		}
+		return fmt.Sprintf("\nConstraint: `%s len(val) %s`.", left, right)
+	}
+
+	return ""
 }
 
 func propNameAndAnchor(prop, title string) (string, string) {
