@@ -65,7 +65,7 @@ export const getFieldLinksForExplore = (options: {
   dataFrame?: DataFrame;
 }): Array<LinkModel<Field>> => {
   const { field, vars, splitOpenFn, range, rowIndex, dataFrame } = options;
-  const scopedVars: any = { ...(vars || {}) };
+  const scopedVars: ScopedVars = { ...(vars || {}) };
   scopedVars['__value'] = {
     value: {
       raw: field.values.get(rowIndex),
@@ -121,6 +121,7 @@ export const getFieldLinksForExplore = (options: {
         }
         return linkModel;
       } else {
+        const internalLinkSpecificVars: ScopedVars = {};
         if (link.internal.transformations) {
           const fieldValue = field.values.get(rowIndex);
           link.internal.transformations.forEach((transformation) => {
@@ -128,7 +129,7 @@ export const getFieldLinksForExplore = (options: {
               const regexp = new RegExp(transformation.expression, 'g');
               const matches = fieldValue.match(regexp);
               if (matches.length > 0) {
-                scopedVars[transformation.variable || field.name] = {
+                internalLinkSpecificVars[transformation.variable || field.name] = {
                   value: matches[0],
                 };
               }
@@ -139,7 +140,7 @@ export const getFieldLinksForExplore = (options: {
         return mapInternalLinkToExplore({
           link,
           internalLink: link.internal,
-          scopedVars: scopedVars,
+          scopedVars: { ...scopedVars, ...internalLinkSpecificVars },
           range,
           field,
           onClickFn: splitOpenFn,
