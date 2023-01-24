@@ -823,7 +823,7 @@ steps:
   image: grafana/build-container:1.6.6
   name: lint-docs
 - commands:
-  - mkdir -p /hugo/content/docs/grafana
+  - mkdir -p /hugo/content/docs/grafana/latest
   - cp -r docs/sources/* /hugo/content/docs/grafana/latest/
   - cd /hugo && make prod
   image: grafana/docs-base:latest
@@ -940,7 +940,7 @@ steps:
   image: grafana/build-container:1.6.6
   name: lint-docs
 - commands:
-  - mkdir -p /hugo/content/docs/grafana
+  - mkdir -p /hugo/content/docs/grafana/latest
   - cp -r docs/sources/* /hugo/content/docs/grafana/latest/
   - cd /hugo && make prod
   image: grafana/docs-base:latest
@@ -6451,6 +6451,6 @@ kind: secret
 name: aws_secret_access_key
 ---
 kind: signature
-hmac: 5b2831b92627887ebe7ee9963796449981a12a96ea775a331fb84536598536ce
+hmac: 6009606140b8d419e0c35a50222824e55fd4d90362b18ed7315c80235c6954c6
 
 ...
