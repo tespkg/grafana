@@ -41,8 +41,8 @@ var _ authn.RedirectClient = new(FakeRedirectClient)
 
 type FakeRedirectClient struct {
 	ExpectedErr      error
-	ExpectedURL      string
 	ExpectedOK       bool
+	ExpectedRedirect *authn.Redirect
 	ExpectedIdentity *authn.Identity
 }
 
@@ -54,6 +54,6 @@ func (f FakeRedirectClient) Test(ctx context.Context, r *authn.Request) bool {
 	return f.ExpectedOK
 }
 
-func (f FakeRedirectClient) RedirectURL(ctx context.Context, r *authn.Request) (string, error) {
-	return f.ExpectedURL, f.ExpectedErr
+func (f FakeRedirectClient) RedirectURL(ctx context.Context, r *authn.Request) (*authn.Redirect, error) {
+	return f.ExpectedRedirect, f.ExpectedErr
 }
