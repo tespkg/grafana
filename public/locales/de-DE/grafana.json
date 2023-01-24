@@ -285,7 +285,7 @@
       "title": "Passwort ändern"
     },
     "profile/settings": {
-      "title": "Einstellungen"
+      "title": "Profil"
     },
     "profile/switch-org": "Organisation wechseln",
     "scenes": {
@@ -555,8 +555,7 @@
       "name-error": "Name ist erforderlich",
       "name-label": "Name",
       "username-label": "Benutzername"
-    },
-    "title": "Profil"
+    }
   },
   "user-session": {
     "browser-column": "Browser & Betriebssystem",
