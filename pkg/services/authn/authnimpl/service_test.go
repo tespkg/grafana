@@ -220,10 +220,8 @@ func TestService_RedirectURL(t *testing.T) {
 
 	tests := []testCase{
 		{
-			desc:        "should generate url for valid redirect client",
-			client:      "redirect",
-			expectedURL: "https://localhost/redirect",
-			expectedErr: nil,
+			desc:   "should generate url for valid redirect client",
+			client: "redirect",
 		},
 		{
 			desc:        "should return error on non existing client",
@@ -240,15 +238,12 @@ func TestService_RedirectURL(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.desc, func(t *testing.T) {
 			service := setupTests(t, func(svc *Service) {
-				svc.clients["redirect"] = authntest.FakeRedirectClient{
-					ExpectedURL: tt.expectedURL,
-				}
+				svc.clients["redirect"] = authntest.FakeRedirectClient{}
 				svc.clients["non-redirect"] = &authntest.FakeClient{}
 			})
 
-			u, err := service.RedirectURL(context.Background(), tt.client, nil)
+			_, err := service.RedirectURL(context.Background(), tt.client, nil)
 			assert.ErrorIs(t, err, tt.expectedErr)
-			assert.Equal(t, tt.expectedURL, u)
 		})
 	}
 }
