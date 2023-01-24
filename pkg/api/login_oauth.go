@@ -93,11 +93,11 @@ func (hs *HTTPServer) OAuthLogin(ctx *models.ReqContext) {
 				return
 			}
 
-			if redirect.PKCE != "" {
-				cookies.WriteCookie(ctx.Resp, OauthPKCECookieName, redirect.PKCE, hs.Cfg.OAuthCookieMaxAge, hs.CookieOptionsFromCfg)
+			if pkce := redirect.Extra[authn.ExtraKeyOAuthPKCE]; pkce != "" {
+				cookies.WriteCookie(ctx.Resp, OauthPKCECookieName, pkce, hs.Cfg.OAuthCookieMaxAge, hs.CookieOptionsFromCfg)
 			}
 
-			cookies.WriteCookie(ctx.Resp, OauthStateCookieName, redirect.State, hs.Cfg.OAuthCookieMaxAge, hs.CookieOptionsFromCfg)
+			cookies.WriteCookie(ctx.Resp, OauthStateCookieName, redirect.Extra[authn.ExtraKeyOAuthState], hs.Cfg.OAuthCookieMaxAge, hs.CookieOptionsFromCfg)
 			ctx.Redirect(redirect.URL)
 		}
 
@@ -115,10 +115,9 @@ func (hs *HTTPServer) OAuthLogin(ctx *models.ReqContext) {
 		cookies.WriteSessionCookie(ctx, hs.Cfg, identity.SessionToken.UnhashedToken, hs.Cfg.LoginMaxLifetime)
 
 		redirectURL := setting.AppSubUrl + "/"
-
 		if redirectTo := ctx.GetCookie("redirect_to"); len(redirectTo) > 0 && hs.ValidateRedirectTo(redirectTo) == nil {
-			cookies.DeleteCookie(ctx.Resp, "redirect_to", hs.CookieOptionsFromCfg)
 			redirectURL = redirectTo
+			cookies.DeleteCookie(ctx.Resp, "redirect_to", hs.CookieOptionsFromCfg)
 		}
 
 		ctx.Redirect(redirectURL)
@@ -406,6 +405,8 @@ func (hs *HTTPServer) handleOAuthLoginError(ctx *models.ReqContext, info models.
 func (hs *HTTPServer) handleOAuthLoginErrorWithRedirect(ctx *models.ReqContext, info models.LoginInfo, err error, v ...interface{}) {
 	hs.redirectWithError(ctx, err, v...)
 
-	info.Error = err
-	hs.HooksService.RunLoginHook(&info, ctx)
+	if !hs.Features.IsEnabled(featuremgmt.FlagAuthnService) {
+		info.Error = err
+		hs.HooksService.RunLoginHook(&info, ctx)
+	}
 }
