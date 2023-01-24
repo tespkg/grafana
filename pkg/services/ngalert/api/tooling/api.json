@@ -7,26 +7,6 @@
   "Ack": {
    "type": "object"
   },
-  "AddCommand": {
-   "properties": {
-    "name": {
-     "type": "string"
-    },
-    "role": {
-     "enum": [
-      "Viewer",
-      "Editor",
-      "Admin"
-     ],
-     "type": "string"
-    },
-    "secondsToLive": {
-     "format": "int64",
-     "type": "integer"
-    }
-   },
-   "type": "object"
-  },
   "Alert": {
    "properties": {
     "activeAt": {
@@ -296,9 +276,6 @@
     }
    },
    "type": "object"
-  },
-  "AlertStateType": {
-   "type": "string"
   },
   "AlertingFileExport": {
    "properties": {
@@ -1575,82 +1552,6 @@
    },
    "type": "array"
   },
-  "LegacyAlert": {
-   "properties": {
-    "Created": {
-     "format": "date-time",
-     "type": "string"
-    },
-    "DashboardId": {
-     "format": "int64",
-     "type": "integer"
-    },
-    "EvalData": {
-     "$ref": "#/definitions/Json"
-    },
-    "ExecutionError": {
-     "type": "string"
-    },
-    "For": {
-     "$ref": "#/definitions/Duration"
-    },
-    "Frequency": {
-     "format": "int64",
-     "type": "integer"
-    },
-    "Handler": {
-     "format": "int64",
-     "type": "integer"
-    },
-    "Id": {
-     "format": "int64",
-     "type": "integer"
-    },
-    "Message": {
-     "type": "string"
-    },
-    "Name": {
-     "type": "string"
-    },
-    "NewStateDate": {
-     "format": "date-time",
-     "type": "string"
-    },
-    "OrgId": {
-     "format": "int64",
-     "type": "integer"
-    },
-    "PanelId": {
-     "format": "int64",
-     "type": "integer"
-    },
-    "Settings": {
-     "$ref": "#/definitions/Json"
-    },
-    "Severity": {
-     "type": "string"
-    },
-    "Silenced": {
-     "type": "boolean"
-    },
-    "State": {
-     "$ref": "#/definitions/AlertStateType"
-    },
-    "StateChanges": {
-     "format": "int64",
-     "type": "integer"
-    },
-    "Updated": {
-     "format": "date-time",
-     "type": "string"
-    },
-    "Version": {
-     "format": "int64",
-     "type": "integer"
-    }
-   },
-   "type": "object"
-  },
   "MatchRegexps": {
    "additionalProperties": {
     "$ref": "#/definitions/Regexp"
@@ -2471,6 +2372,9 @@
     "token": {
      "$ref": "#/definitions/Secret"
     },
+    "token_file": {
+     "type": "string"
+    },
     "url": {
      "type": "string"
     },
@@ -2479,6 +2383,9 @@
     },
     "user_key": {
      "$ref": "#/definitions/Secret"
+    },
+    "user_key_file": {
+     "type": "string"
     }
    },
    "type": "object"
@@ -3605,6 +3512,7 @@
    "type": "object"
   },
   "alertGroups": {
+   "description": "AlertGroups alert groups",
    "items": {
     "$ref": "#/definitions/alertGroup"
    },
@@ -3820,7 +3728,6 @@
    "type": "object"
   },
   "gettableSilences": {
-   "description": "GettableSilences gettable silences",
    "items": {
     "$ref": "#/definitions/gettableSilence"
    },
@@ -3970,7 +3877,6 @@
    "type": "array"
   },
   "postableSilence": {
-   "description": "PostableSilence postable silence",
    "properties": {
     "comment": {
      "description": "comment",
