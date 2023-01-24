@@ -285,7 +285,7 @@
       "title": "更改密码"
     },
     "profile/settings": {
-      "title": "首选项"
+      "title": "个人资料"
     },
     "profile/switch-org": "切换组织",
     "scenes": {
@@ -555,8 +555,7 @@
       "name-error": "姓名是必填项",
       "name-label": "姓名",
       "username-label": "用户名"
-    },
-    "title": "个人资料"
+    }
   },
   "user-session": {
     "browser-column": "浏览器和操作系统",
