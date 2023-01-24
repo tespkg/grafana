@@ -285,7 +285,7 @@
       "title": "Modifier le mot de passe"
     },
     "profile/settings": {
-      "title": "Préférences"
+      "title": "Profil"
     },
     "profile/switch-org": "Passer à une autre organisation",
     "scenes": {
@@ -555,8 +555,7 @@
       "name-error": "Un nom est obligatoire",
       "name-label": "Nom",
       "username-label": "Nom d’utilisateur"
-    },
-    "title": "Profil"
+    }
   },
   "user-session": {
     "browser-column": "Navigateur et système d'exploitation",
