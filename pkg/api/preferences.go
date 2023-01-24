@@ -16,6 +16,7 @@ const (
 	defaultTheme string = ""
 	darkTheme    string = "dark"
 	lightTheme   string = "light"
+	systemTheme  string = "system"
 )
 
 // POST /api/preferences/set-home-dash
@@ -125,7 +126,7 @@ func (hs *HTTPServer) UpdateUserPreferences(c *models.ReqContext) response.Respo
 }
 
 func (hs *HTTPServer) updatePreferencesFor(ctx context.Context, orgID, userID, teamId int64, dtoCmd *dtos.UpdatePrefsCmd) response.Response {
-	if dtoCmd.Theme != lightTheme && dtoCmd.Theme != darkTheme && dtoCmd.Theme != defaultTheme {
+	if dtoCmd.Theme != lightTheme && dtoCmd.Theme != darkTheme && dtoCmd.Theme != defaultTheme && dtoCmd.Theme != systemTheme {
 		return response.Error(400, "Invalid theme", nil)
 	}
 
@@ -183,7 +184,7 @@ func (hs *HTTPServer) PatchUserPreferences(c *models.ReqContext) response.Respon
 }
 
 func (hs *HTTPServer) patchPreferencesFor(ctx context.Context, orgID, userID, teamId int64, dtoCmd *dtos.PatchPrefsCmd) response.Response {
-	if dtoCmd.Theme != nil && *dtoCmd.Theme != lightTheme && *dtoCmd.Theme != darkTheme && *dtoCmd.Theme != defaultTheme {
+	if dtoCmd.Theme != nil && *dtoCmd.Theme != lightTheme && *dtoCmd.Theme != darkTheme && *dtoCmd.Theme != defaultTheme && *dtoCmd.Theme != systemTheme {
 		return response.Error(400, "Invalid theme", nil)
 	}
 
