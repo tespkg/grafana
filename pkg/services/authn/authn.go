@@ -113,8 +113,8 @@ func (r *Request) GetMeta(k string) string {
 }
 
 const (
-	ExtraKeyOAuthPKCE  = "pkce"
-	ExtraKeyOAuthState = "state"
+	KeyOAuthPKCE  = "pkce"
+	KeyOAuthState = "state"
 )
 
 type Redirect struct {
