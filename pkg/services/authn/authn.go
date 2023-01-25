@@ -33,7 +33,7 @@ const (
 	MetaKeyAuthModule = "authModule"
 )
 
-// ClientParams are hints to the auth serviAuthN: Post login hooksce about how to handle the identity management
+// ClientParams are hints to the auth service about how to handle the identity management
 // from the authenticating client.
 type ClientParams struct {
 	// Update the internal representation of the entity from the identity provided
@@ -42,7 +42,7 @@ type ClientParams struct {
 	SyncTeamMembers bool
 	// Create entity in the DB if it doesn't exist
 	AllowSignUp bool
-	// EnableDisabledUsers is a hint to the auth service that it should reenable disabled users
+	// EnableDisabledUsers is a hint to the auth service that it should re-enable disabled users
 	EnableDisabledUsers bool
 	// LookUpParams are the arguments used to look up the entity in the DB.
 	LookUpParams models.UserLookupParams
@@ -144,7 +144,7 @@ type Identity struct {
 	// Namespace* constants. For example, "user:1" or "api-key:1".
 	// If the entity is not found in the DB or this entity is non-persistent, this field will be empty.
 	ID string
-	// Login is the short hand identifier of the entity. Should be unique.
+	// Login is the shorthand identifier of the entity. Should be unique.
 	Login string
 	// Name is the display name of the entity. It is not guaranteed to be unique.
 	Name string
