@@ -208,7 +208,6 @@ func (hs *HTTPServer) getFrontendSettings(c *models.ReqContext) (*dtos.FrontendS
 			Enabled: hs.Cfg.SectionWithEnvOverrides("reporting").Key("enabled").MustBool(true),
 		},
 
-		UnifiedAlertingEnabled: hs.Cfg.UnifiedAlerting.Enabled,
 		UnifiedAlerting: dtos.FrontendSettingsUnifiedAlertingDTO{
 			MinInterval: hs.Cfg.UnifiedAlerting.MinInterval.String(),
 		},
@@ -217,6 +216,10 @@ func (hs *HTTPServer) getFrontendSettings(c *models.ReqContext) (*dtos.FrontendS
 		SamlEnabled:             hs.samlEnabled(),
 		SamlName:                hs.samlName(),
 		TokenExpirationDayLimit: hs.Cfg.SATokenExpirationDayLimit,
+	}
+
+	if hs.Cfg.UnifiedAlerting.Enabled != nil {
+		frontendSettings.UnifiedAlertingEnabled = *hs.Cfg.UnifiedAlerting.Enabled
 	}
 
 	if setting.AlertingEnabled != nil {
