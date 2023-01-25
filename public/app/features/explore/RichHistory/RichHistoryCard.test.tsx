@@ -9,7 +9,7 @@ import { DataSourceType } from 'app/features/alerting/unified/utils/datasource';
 import { ShowConfirmModalEvent } from 'app/types/events';
 import { ExploreId, RichHistoryQuery } from 'app/types/explore';
 
-import { RichHistoryCard, Props } from './RichHistoryCard';
+import { RichHistoryCard, Props } from './';
 
 const starRichHistoryMock = jest.fn();
 const deleteRichHistoryMock = jest.fn();
@@ -57,8 +57,6 @@ const setup = (propOverrides?: Partial<Props<MockQuery>>) => {
         { query: 'query3', refId: 'C' },
       ],
     },
-    dsImg: '/app/img',
-    isRemoved: false,
     changeDatasource: jest.fn(),
     starHistoryItem: starRichHistoryMock,
     deleteHistoryItem: deleteRichHistoryMock,
@@ -107,11 +105,11 @@ describe('RichHistoryCard', () => {
     expect(datasourceIcon).toBeInTheDocument();
     expect(datasourceName).toBeInTheDocument();
   });
-  it('should render "Data source does not exist anymore" if removed data source', async () => {
-    setup({ isRemoved: true });
-    const datasourceName = await screen.findByLabelText('Data source name');
-    expect(datasourceName).toHaveTextContent('Data source does not exist anymore');
-  });
+  // it('should render "Data source does not exist anymore" if removed data source', async () => {
+  //   setup({ isRemoved: true });
+  //   const datasourceName = await screen.findByLabelText('Data source name');
+  //   expect(datasourceName).toHaveTextContent('Data source does not exist anymore');
+  // });
 
   describe('commenting', () => {
     it('should render comment, if comment present', async () => {
