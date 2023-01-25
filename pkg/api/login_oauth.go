@@ -145,6 +145,7 @@ func (hs *HTTPServer) OAuthLogin(ctx *models.ReqContext) {
 					HttpStatus:    http.StatusInternalServerError,
 					PublicMessage: "An internal error occurred",
 				})
+				return
 			}
 
 			cookies.WriteCookie(ctx.Resp, OauthPKCECookieName, ascii, hs.Cfg.OAuthCookieMaxAge, hs.CookieOptionsFromCfg)
