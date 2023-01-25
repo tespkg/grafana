@@ -277,9 +277,6 @@
    },
    "type": "object"
   },
-  "AlertStateType": {
-   "type": "string"
-  },
   "AlertingFileExport": {
    "properties": {
     "apiVersion": {
@@ -1555,82 +1552,6 @@
    },
    "type": "array"
   },
-  "LegacyAlert": {
-   "properties": {
-    "Created": {
-     "format": "date-time",
-     "type": "string"
-    },
-    "DashboardId": {
-     "format": "int64",
-     "type": "integer"
-    },
-    "EvalData": {
-     "$ref": "#/definitions/Json"
-    },
-    "ExecutionError": {
-     "type": "string"
-    },
-    "For": {
-     "$ref": "#/definitions/Duration"
-    },
-    "Frequency": {
-     "format": "int64",
-     "type": "integer"
-    },
-    "Handler": {
-     "format": "int64",
-     "type": "integer"
-    },
-    "Id": {
-     "format": "int64",
-     "type": "integer"
-    },
-    "Message": {
-     "type": "string"
-    },
-    "Name": {
-     "type": "string"
-    },
-    "NewStateDate": {
-     "format": "date-time",
-     "type": "string"
-    },
-    "OrgId": {
-     "format": "int64",
-     "type": "integer"
-    },
-    "PanelId": {
-     "format": "int64",
-     "type": "integer"
-    },
-    "Settings": {
-     "$ref": "#/definitions/Json"
-    },
-    "Severity": {
-     "type": "string"
-    },
-    "Silenced": {
-     "type": "boolean"
-    },
-    "State": {
-     "$ref": "#/definitions/AlertStateType"
-    },
-    "StateChanges": {
-     "format": "int64",
-     "type": "integer"
-    },
-    "Updated": {
-     "format": "date-time",
-     "type": "string"
-    },
-    "Version": {
-     "format": "int64",
-     "type": "integer"
-    }
-   },
-   "type": "object"
-  },
   "MatchRegexps": {
    "additionalProperties": {
     "$ref": "#/definitions/Regexp"
@@ -2451,6 +2372,9 @@
     "token": {
      "$ref": "#/definitions/Secret"
     },
+    "token_file": {
+     "type": "string"
+    },
     "url": {
      "type": "string"
     },
@@ -2459,6 +2383,9 @@
     },
     "user_key": {
      "$ref": "#/definitions/Secret"
+    },
+    "user_key_file": {
+     "type": "string"
     }
    },
    "type": "object"
@@ -3350,7 +3277,6 @@
    "type": "object"
   },
   "URL": {
-   "description": "The general form represented is:\n\n[scheme:][//[userinfo@]host][/]path[?query][#fragment]\n\nURLs that do not start with a slash after the scheme are interpreted as:\n\nscheme:opaque[?query][#fragment]\n\nNote that the Path field is stored in decoded form: /%47%6f%2f becomes /Go/.\nA consequence is that it is impossible to tell which slashes in the Path were\nslashes in the raw URL and which were %2f. This distinction is rarely important,\nbut when it is, the code should use RawPath, an optional field which only gets\nset if the default encoding is different from Path.\n\nURL's String method uses the EscapedPath method to obtain the path. See the\nEscapedPath method for more details.",
    "properties": {
     "ForceQuery": {
      "type": "boolean"
@@ -3386,7 +3312,7 @@
      "$ref": "#/definitions/Userinfo"
     }
    },
-   "title": "A URL represents a parsed URL (technically, a URI reference).",
+   "title": "URL is a custom URL type that allows validation at configuration load time.",
    "type": "object"
   },
   "Userinfo": {
@@ -3586,6 +3512,7 @@
    "type": "object"
   },
   "alertGroups": {
+   "description": "AlertGroups alert groups",
    "items": {
     "$ref": "#/definitions/alertGroup"
    },
@@ -3745,6 +3672,7 @@
    "type": "object"
   },
   "gettableAlerts": {
+   "description": "GettableAlerts gettable alerts",
    "items": {
     "$ref": "#/definitions/gettableAlert"
    },
@@ -3800,6 +3728,7 @@
    "type": "object"
   },
   "gettableSilences": {
+   "description": "GettableSilences gettable silences",
    "items": {
     "$ref": "#/definitions/gettableSilence"
    },
@@ -3950,6 +3879,7 @@
    "type": "array"
   },
   "postableSilence": {
+   "description": "PostableSilence postable silence",
    "properties": {
     "comment": {
      "description": "comment",
@@ -3987,6 +3917,7 @@
    "type": "object"
   },
   "receiver": {
+   "description": "Receiver receiver",
    "properties": {
     "active": {
      "description": "active",
