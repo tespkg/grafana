@@ -386,8 +386,6 @@ func (hs *HTTPServer) hashStatecode(code, seed string) string {
 }
 
 func (hs *HTTPServer) handleAuthnOAuthErr(c *models.ReqContext, msg string, err error) {
-	c.Logger.Warn(msg, "err", err)
-
 	gfErr := &errutil.Error{}
 	if errors.As(err, gfErr) {
 		if gfErr.Public().Message != "" {
@@ -396,6 +394,7 @@ func (hs *HTTPServer) handleAuthnOAuthErr(c *models.ReqContext, msg string, err 
 		}
 	}
 
+	c.Logger.Warn(msg, "err", err)
 	c.Redirect(hs.Cfg.AppSubURL + "/login")
 }
 
