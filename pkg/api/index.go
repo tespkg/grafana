@@ -3,6 +3,7 @@ package api
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/grafana/grafana/pkg/api/dtos"
@@ -130,12 +131,15 @@ func (hs *HTTPServer) setIndexViewData(c *contextmodel.ReqContext) (*dtos.IndexV
 		AppNameBodyClass:                    "app-grafana",
 		FavIcon:                             "public/img/fav32.png",
 		AppleTouchIcon:                      "public/img/apple-touch-icon.png",
-		AppTitle:                            "Grafana",
 		NavTree:                             navTree,
 		Sentry:                              &hs.Cfg.Sentry,
 		Nonce:                               c.RequestNonce,
 		ContentDeliveryURL:                  hs.Cfg.GetContentDeliveryURL(hs.License.ContentDeliveryPrefix()),
 		LoadingLogo:                         "public/img/grafana_icon.svg",
+
+		// (tespkg) branding
+		AppTitle:   getEnvOrDefault("APP_TITLE", "Grafana"),
+		LoginTitle: getEnvOrDefault("LOGIN_TITLE", "Welcome to Grafana"),
 	}
 
 	if !hs.AccessControl.IsDisabled() {
@@ -192,4 +196,11 @@ func (hs *HTTPServer) NotFoundHandler(c *contextmodel.ReqContext) {
 	}
 
 	c.HTML(404, "index", data)
+}
+
+func getEnvOrDefault(key string, defaultValue string) string {
+	if value, ok := os.LookupEnv(key); ok {
+		return value
+	}
+	return defaultValue
 }

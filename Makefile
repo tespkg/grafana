@@ -166,7 +166,7 @@ build-docker-full: ## Build Docker image for development.
 	@echo "build docker container"
 	DOCKER_BUILDKIT=1 \
 	docker build \
-	--tag grafana/grafana:dev .
+	--tag tespkg/grafana:dev .
 
 build-docker-full-ubuntu: ## Build Docker image based on Ubuntu for development.
 	@echo "build docker container"
@@ -174,7 +174,7 @@ build-docker-full-ubuntu: ## Build Docker image based on Ubuntu for development.
 	docker build \
 	--build-arg BASE_IMAGE=ubuntu:20.04 \
 	--build-arg GO_IMAGE=golang:1.20.1 \
-	--tag grafana/grafana:dev-ubuntu .
+	--tag tespkg/grafana:dev-ubuntu .
 
 ##@ Services
 

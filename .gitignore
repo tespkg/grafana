@@ -70,6 +70,7 @@ public/css/*.min.css
 .vs/
 .eslintcache
 .stylelintcache
+Session.vim
 
 /data/*
 /bin/*
