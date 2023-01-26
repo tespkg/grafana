@@ -1,3 +1,15 @@
+# TESPKG fork of grafana
+
+All changes happens in `tespkg` branch
+
+**Changes**
+
+- [ ] Tes theme
+- [ ] Built-in tree plugin
+- [ ] Map accept geojson & WKT
+
+---
+
 ![Grafana](docs/logo-horizontal.png)
 
 The open-source platform for monitoring and observability
