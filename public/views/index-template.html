@@ -243,6 +243,11 @@
 
     <script nonce="[[.Nonce]]">
       window.grafanaBootData = {
+        // (tespkg) branding
+        branding: {
+          appTitle: '[[.AppTitle]]',
+          loginTitle: '[[.LoginTitle]]',
+        },
         user: [[.User]],
         settings: [[.Settings]],
         navTree: [[.NavTree]],
