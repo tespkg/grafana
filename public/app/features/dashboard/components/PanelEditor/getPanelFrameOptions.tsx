@@ -64,6 +64,20 @@ export function getPanelFrameCategory(props: OptionPaneRenderProps): OptionsPane
         },
       })
     )
+    .addItem(
+      new OptionsPaneItemDescriptor({
+        title: 'Floating panel',
+        render: function renderFloating() {
+          return (
+            <Switch
+              value={panel.floating}
+              id="floating-panel"
+              onChange={(e) => onPanelConfigChange('floating', e.currentTarget.checked)}
+            />
+          );
+        },
+      })
+    )
     .addCategory(
       new OptionsPaneCategoryDescriptor({
         title: 'Panel links',

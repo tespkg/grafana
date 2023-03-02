@@ -125,6 +125,7 @@ const defaults: any = {
   targets: [{ refId: 'A' }],
   cachedPluginOptions: {},
   transparent: false,
+  floating: false,
   options: {},
   fieldConfig: {
     defaults: {},
@@ -172,6 +173,7 @@ export class PanelModel implements DataConfigSource, IPanelModel {
   description?: string;
   links?: DataLink[];
   declare transparent: boolean;
+  declare floating: boolean;
 
   libraryPanel?: LibraryPanelRef | LibraryPanel;
 

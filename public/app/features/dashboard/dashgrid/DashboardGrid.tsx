@@ -14,6 +14,7 @@ import { DashboardModel, PanelModel } from '../state';
 import { GridPos } from '../state/PanelModel';
 
 import { DashboardPanel } from './DashboardPanel';
+import { FloatingPanels } from './FloatingPanel';
 
 export interface Props {
   dashboard: DashboardModel;
@@ -52,6 +53,7 @@ export class DashboardGrid extends PureComponent<Props, State> {
     this.eventSubs.unsubscribe();
   }
 
+  // TODO(tespkg): take floating out of rendering
   buildLayout() {
     const layout: ReactGridLayout.Layout[] = [];
     this.panelMap = {};
@@ -154,6 +156,10 @@ export class DashboardGrid extends PureComponent<Props, State> {
     }
 
     for (const panel of this.props.dashboard.panels) {
+      // if panel is floating and not viewing, use floating render
+      if (panel.floating && !panel.isViewing) {
+        continue;
+      }
       const panelClasses = classNames({ 'react-grid-item--fullscreen': panel.isViewing });
 
       panelElements.push(
@@ -175,6 +181,21 @@ export class DashboardGrid extends PureComponent<Props, State> {
     }
 
     return panelElements;
+  }
+
+  renderFloatingPanels() {
+    const panels = this.props.dashboard.panels.filter((panel) => panel.floating && !panel.isViewing);
+    return (
+      <FloatingPanels
+        panels={panels}
+        onDragStop={this.updateGridPos.bind(this)}
+        // onResize={this.onResize}
+        onResizeStop={this.updateGridPos.bind(this)}
+        // onLayoutChange={this.onLayoutChange}
+      >
+        {(panel: PanelModel, width: number, height: number) => this.renderPanel(panel, width, height)}
+      </FloatingPanels>
+    );
   }
 
   renderPanel(panel: PanelModel, width: number, height: number) {
@@ -249,6 +270,7 @@ export class DashboardGrid extends PureComponent<Props, State> {
                 >
                   {this.renderPanels(width)}
                 </ReactGridLayout>
+                {this.renderFloatingPanels()}
               </div>
             );
           }}
