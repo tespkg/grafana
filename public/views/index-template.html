@@ -20,6 +20,7 @@
     [[ else if eq .Theme "dark" ]]
     <link rel="stylesheet" href="[[.ContentDeliveryURL]]public/build/<%= htmlWebpackPlugin.files.cssChunks.dark %>" />
     [[ end ]]
+    <link rel="stylesheet" href="[[.ContentDeliveryURL]]public/custom.css" />
 
     <script nonce="[[.Nonce]]">
       performance.mark('frontend_boot_css_time_seconds');

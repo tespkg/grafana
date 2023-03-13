@@ -64,6 +64,7 @@ export const ToolbarButton = forwardRef<HTMLButtonElement, ToolbarButtonProps>(
     const styles = useStyles2(getStyles);
 
     const buttonStyles = cx(
+      'toolbar-button--custom',
       {
         [styles.button]: true,
         [styles.buttonFullWidth]: fullWidth,
