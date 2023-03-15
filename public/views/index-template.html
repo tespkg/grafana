@@ -21,6 +21,9 @@
     <link rel="stylesheet" href="[[.ContentDeliveryURL]]public/build/<%= htmlWebpackPlugin.files.cssChunks.dark %>" />
     [[ end ]]
 
+    <!-- Adding an empty custom style here -->
+    <link rel="stylesheet" href="[[.ContentDeliveryURL]]public/custom/custom-style.css %>" />
+
     <script nonce="[[.Nonce]]">
       performance.mark('frontend_boot_css_time_seconds');
     </script>
