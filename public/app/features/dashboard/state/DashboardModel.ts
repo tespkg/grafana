@@ -94,6 +94,7 @@ export class DashboardModel implements TimeModel {
   links: DashboardLink[];
   gnetId: any;
   panels: PanelModel[];
+  sidePanel?: number;
   panelInEdit?: PanelModel;
   panelInView?: PanelModel;
   fiscalYearStartMonth?: number;
@@ -134,6 +135,7 @@ export class DashboardModel implements TimeModel {
     this.revision = data.revision || 1;
     this.title = data.title ?? 'No Title';
     this.description = data.description;
+    this.sidePanel = data.sidePanel;
     this.tags = data.tags ?? [];
     this.style = data.style ?? 'dark';
     this.timezone = data.timezone ?? '';

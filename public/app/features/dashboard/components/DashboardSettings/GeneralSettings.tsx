@@ -6,6 +6,7 @@ import { config } from '@grafana/runtime';
 import { CollapsableSection, Field, Input, RadioButtonGroup, TagsInput } from '@grafana/ui';
 import { Page } from 'app/core/components/PageNew/Page';
 import { FolderPicker } from 'app/core/components/Select/FolderPicker';
+import { PanelPicker } from 'app/core/components/Select/PanelPicker';
 import { updateTimeZoneDashboard, updateWeekStartDashboard } from 'app/features/dashboard/state/actions';
 
 import { DeleteDashboardButton } from '../DeleteDashboard/DeleteDashboardButton';
@@ -87,6 +88,11 @@ export function GeneralSettingsUnconnected({
     setRenderCounter(renderCounter + 1);
   };
 
+  const onSidepanelChange = (value?: number) => {
+    dashboard.sidePanel = value;
+    setRenderCounter(renderCounter + 1);
+  };
+
   const editableOptions = [
     { label: 'Editable', value: true },
     { label: 'Read-only', value: false },
@@ -115,6 +121,9 @@ export function GeneralSettingsUnconnected({
               dashboardId={dashboard.id}
               skipInitialLoad={true}
             />
+          </Field>
+          <Field label="Side Panel">
+            <PanelPicker value={dashboard.sidePanel} panels={dashboard.panels} onChange={onSidepanelChange} />
           </Field>
 
           <Field

@@ -242,6 +242,9 @@ type Dashboard struct {
 	// TODO this is the existing schema numbering system. It will be replaced by Thema's themaVersion
 	SchemaVersion int `json:"schemaVersion"`
 
+	// The floating panel id to show on the left side of the dashboard. Hidden if empty
+	SidePanel *int `json:"sidePanel,omitempty"`
+
 	// TODO docs
 	Snapshot *Snapshot `json:"snapshot,omitempty"`
 

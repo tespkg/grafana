@@ -72,6 +72,8 @@ lineage: seqs: [
 				// Version of the dashboard, incremented each time the dashboard is updated.
 				version?: uint32 @grafanamaturity(NeedsExpertReview)
 				panels?: [...(#Panel | #RowPanel | #GraphPanel | #HeatmapPanel)] @grafanamaturity(NeedsExpertReview)
+				// The floating panel id to show on the left side of the dashboard. Hidden if empty
+				sidePanel?: uint32
 				// TODO docs
 				templating?: {
 					list?: [...#VariableModel] @grafanamaturity(NeedsExpertReview)
