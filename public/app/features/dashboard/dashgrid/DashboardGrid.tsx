@@ -53,7 +53,7 @@ export class DashboardGrid extends PureComponent<Props, State> {
     this.eventSubs.unsubscribe();
   }
 
-  // TODO(tespkg): take floating out of rendering
+  // TODO(tespkg): take floating out of rendering. Complication is we're reusing the "view/edit panel" logic.
   buildLayout() {
     const layout: ReactGridLayout.Layout[] = [];
     this.panelMap = {};
@@ -92,6 +92,11 @@ export class DashboardGrid extends PureComponent<Props, State> {
 
   onLayoutChange = (newLayout: ReactGridLayout.Layout[]) => {
     for (const newPos of newLayout) {
+      // skip side panel updates as it can't be resized
+      // TODO(tespkg): ideally we should take the floating & side panel out of the grid rendering totally
+      if (!this.props.dashboard.isNormalPanel(this.panelMap[newPos.i!])) {
+        continue;
+      }
       this.panelMap[newPos.i!].updateGridPos(newPos, this.state.isLayoutInitialized);
     }
 
@@ -156,8 +161,9 @@ export class DashboardGrid extends PureComponent<Props, State> {
     }
 
     for (const panel of this.props.dashboard.panels) {
-      // if panel is floating and not viewing, use floating render
-      if (panel.floating && !panel.isViewing) {
+      // if panel is not a normal panel or if the panel is not in view mode, skip it
+      // viewing mode should be handled as normal case
+      if (!this.props.dashboard.isNormalPanel(panel) && !panel.isViewing) {
         continue;
       }
       const panelClasses = classNames({ 'react-grid-item--fullscreen': panel.isViewing });
@@ -184,7 +190,9 @@ export class DashboardGrid extends PureComponent<Props, State> {
   }
 
   renderFloatingPanels() {
-    const panels = this.props.dashboard.panels.filter((panel) => panel.floating && !panel.isViewing);
+    const panels = this.props.dashboard.panels.filter(
+      (panel) => panel.floating && !panel.isViewing && panel.id !== this.props.dashboard.sidePanel
+    );
     return (
       <FloatingPanels
         panels={panels}

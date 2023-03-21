@@ -26,6 +26,8 @@ export interface PageProps extends HTMLAttributes<HTMLDivElement> {
   scrollRef?: RefCallback<HTMLDivElement>;
   /** Can be used to update the current scroll position */
   scrollTop?: number;
+  /** Use SidePanel layout to render side panel */
+  sidePanel?: React.ReactNode;
 }
 
 export interface PageInfoItem {

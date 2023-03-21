@@ -12,6 +12,7 @@ import { Page as NewPage } from '../PageNew/Page';
 
 import { OldNavOnly } from './OldNavOnly';
 import { PageContents } from './PageContents';
+import { WithSidePanel } from './WithSidePanel';
 import { PageType } from './types';
 import { usePageNav } from './usePageNav';
 import { usePageTitle } from './usePageTitle';
@@ -23,6 +24,7 @@ export const OldPage: PageType = ({
   children,
   className,
   toolbar,
+  sidePanel,
   scrollRef,
   scrollTop,
   layout = PageLayoutType.Standard,
@@ -66,6 +68,16 @@ export const OldPage: PageType = ({
               <div className={cx(styles.content, !toolbar && styles.contentWithoutToolbar)}>{children}</div>
             </CustomScrollbar>
           </div>
+        </>
+      )}
+      {layout === PageLayoutType.WithSidePanel && (
+        <>
+          {toolbar}
+          <WithSidePanel sidePanel={sidePanel}>
+            <CustomScrollbar autoHeightMin={'100%'} scrollTop={scrollTop} scrollRefCallback={scrollRef}>
+              <div className={cx(styles.content, !toolbar && styles.contentWithoutToolbar)}>{children}</div>
+            </CustomScrollbar>
+          </WithSidePanel>
         </>
       )}
       {layout === PageLayoutType.Custom && (

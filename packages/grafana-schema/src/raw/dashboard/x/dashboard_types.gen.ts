@@ -706,6 +706,10 @@ export interface Dashboard {
    * TODO this is the existing schema numbering system. It will be replaced by Thema's themaVersion
    */
   schemaVersion: number;
+  /**
+   * The floating panel id to show on the left side of the dashboard. Hidden if empty
+   */
+  sidePanel?: number;
   snapshot?: {
     /**
      * TODO docs

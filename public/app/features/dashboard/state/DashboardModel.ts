@@ -94,6 +94,7 @@ export class DashboardModel implements TimeModel {
   links: DashboardLink[];
   gnetId: any;
   panels: PanelModel[];
+  sidePanel?: number;
   panelInEdit?: PanelModel;
   panelInView?: PanelModel;
   fiscalYearStartMonth?: number;
@@ -134,6 +135,7 @@ export class DashboardModel implements TimeModel {
     this.revision = data.revision || 1;
     this.title = data.title ?? 'No Title';
     this.description = data.description;
+    this.sidePanel = data.sidePanel;
     this.tags = data.tags ?? [];
     this.style = data.style ?? 'dark';
     this.timezone = data.timezone ?? '';
@@ -960,13 +962,17 @@ export class DashboardModel implements TimeModel {
    * Will return all panels after rowIndex until it encounters another row
    */
   getRowPanels(rowIndex: number): PanelModel[] {
-    const panelsBelowRow = this.panels.slice(rowIndex + 1).filter((p) => !p.floating);
+    const panelsBelowRow = this.panels.slice(rowIndex + 1).filter((p) => this.isNormalPanel(p));
     const nextRowIndex = panelsBelowRow.findIndex((p) => p.type === 'row');
 
     // Take all panels up to next row, or all panels if there are no other rows
     const rowPanels = panelsBelowRow.slice(0, nextRowIndex >= 0 ? nextRowIndex : this.panels.length);
 
     return rowPanels;
+  }
+
+  isNormalPanel(p: PanelModel) {
+    return !p.floating && p.id !== this.sidePanel;
   }
 
   /** @deprecated */
