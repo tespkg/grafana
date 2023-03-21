@@ -2,6 +2,7 @@ import React, { CSSProperties, useState } from 'react';
 import Draggable from 'react-draggable';
 import ReactGridLayout from 'react-grid-layout';
 import { Resizable } from 'react-resizable';
+import { useWindowSize } from 'react-use';
 
 import { config } from '@grafana/runtime';
 import { GRID_CELL_HEIGHT, GRID_COLUMN_COUNT } from 'app/core/constants';
@@ -25,10 +26,11 @@ const portalStyle: CSSProperties = {
 };
 
 export const FloatingPanels = (props: Props) => {
+  const { width: windowWidth } = useWindowSize();
   const positionParams: PositionParams = {
     cols: GRID_COLUMN_COUNT,
     containerPadding: [0, 0],
-    containerWidth: window.innerWidth,
+    containerWidth: windowWidth,
     margin: [0, 0],
     maxRows: 100,
     rowHeight: GRID_CELL_HEIGHT,

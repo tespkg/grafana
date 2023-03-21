@@ -1,6 +1,6 @@
 import { css, cx } from '@emotion/css';
 import React, { useEffect, useState } from 'react';
-import { useLocalStorage, useMeasure } from 'react-use';
+import { useLocalStorage, useMeasure, useWindowSize } from 'react-use';
 
 import { GrafanaTheme2 } from '@grafana/data';
 import { useStyles2, useTheme2 } from '@grafana/ui';
@@ -16,15 +16,6 @@ export type Props = {
   dashboard: DashboardModel;
 };
 
-const positionParams: PositionParams = {
-  cols: GRID_COLUMN_COUNT,
-  containerPadding: [0, 0],
-  containerWidth: window.innerWidth,
-  margin: [0, 0],
-  maxRows: 100,
-  rowHeight: GRID_CELL_HEIGHT,
-};
-
 export function SidePanel(props: Props) {
   const styles = useStyles2(getStyles);
 
@@ -34,6 +25,7 @@ export function SidePanel(props: Props) {
   const { isExpanded, onToggleExpand } = useExpandToggle();
   const theme = useTheme2();
   const isSmallScreen = window.matchMedia(`(max-width: ${theme.breakpoints.values.md}px)`).matches;
+  const { width: windowWidth } = useWindowSize();
 
   const { dashboard } = props;
   const panel = dashboard.panels.find((p) => p.id === dashboard.sidePanel);
@@ -42,6 +34,14 @@ export function SidePanel(props: Props) {
     return null;
   }
 
+  const positionParams: PositionParams = {
+    cols: GRID_COLUMN_COUNT,
+    containerPadding: [0, 0],
+    containerWidth: windowWidth,
+    margin: [0, 0],
+    maxRows: 100,
+    rowHeight: GRID_CELL_HEIGHT,
+  };
   const pos = calcGridItemPosition(positionParams, panel.gridPos.x, panel.gridPos.y, panel.gridPos.w, panel.gridPos.h);
 
   // When we're on big screen, we're using flex rows, we need to use the width of the original panel measured from the
@@ -55,13 +55,8 @@ export function SidePanel(props: Props) {
     <div className={styles.navContainer}>
       <div className={styles.measure} ref={measureRef as any} />
       <nav
-        className={cx(
-          styles.nav,
-          css`
-            width: ${isExpanded ? panelWidth : 0}px;
-          `,
-          { [styles.navExpanded]: isExpanded }
-        )}
+        className={cx(styles.nav, { [styles.navExpanded]: isExpanded })}
+        style={{ width: isExpanded ? panelWidth : 0 }}
       >
         <DashboardPanel
           stateKey={panel.key}
