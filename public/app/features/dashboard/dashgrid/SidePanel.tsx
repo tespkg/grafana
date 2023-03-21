@@ -42,13 +42,7 @@ export function SidePanel(props: Props) {
     return null;
   }
 
-  // const sourceModel = panel.getSaveModel();
-  // const p = new PanelModel(sourceModel);
-  // p.plugin = panel.plugin;
-  // TODO: need to make sure panel w & h is not modified
-  const p = panel;
-
-  const pos = calcGridItemPosition(positionParams, p.gridPos.x, p.gridPos.y, p.gridPos.w, p.gridPos.h);
+  const pos = calcGridItemPosition(positionParams, panel.gridPos.x, panel.gridPos.y, panel.gridPos.w, panel.gridPos.h);
 
   // When we're on big screen, we're using flex rows, we need to use the width of the original panel measured from the
   // react-grid-layout. This way we dont need to expose a resizable handle for user to be able to control the width. And
@@ -70,8 +64,8 @@ export function SidePanel(props: Props) {
         )}
       >
         <DashboardPanel
-          stateKey={p.key}
-          panel={p}
+          stateKey={panel.key}
+          panel={panel}
           dashboard={dashboard}
           isEditing={false}
           isViewing={false}

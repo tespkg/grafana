@@ -35,7 +35,6 @@ const getStyles = (theme: GrafanaTheme2) => {
     }),
     sidePanel: css({
       flex: '0 0 auto',
-      marginRight: theme.spacing(-1), // work around the main content having a left padding
     }),
     content: css({
       flexGrow: 1,
