@@ -36,7 +36,8 @@ export const PanelPicker = ({
     const options: Array<SelectableValue<PanelModel>> = panels
       .filter((p) => p.title?.toLowerCase().includes(query.toLowerCase()))
       .map((p) => ({ value: p, label: p.title }));
-    return options.concat({ label: 'None' });
+    options.unshift({ label: 'None' });
+    return options;
   };
 
   return (

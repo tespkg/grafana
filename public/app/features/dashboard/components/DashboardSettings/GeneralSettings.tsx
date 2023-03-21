@@ -122,7 +122,10 @@ export function GeneralSettingsUnconnected({
               skipInitialLoad={true}
             />
           </Field>
-          <Field label="Side Panel">
+          <Field
+            label="Side Panel"
+            description="Take a panel out of the grid and pin to left side. The size of the panel depend on it's original size"
+          >
             <PanelPicker value={dashboard.sidePanel} panels={dashboard.panels} onChange={onSidepanelChange} />
           </Field>
 

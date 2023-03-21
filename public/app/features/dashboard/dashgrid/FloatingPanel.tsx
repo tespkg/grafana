@@ -160,7 +160,7 @@ type Position = {
   width: number;
   height: number;
 };
-type PositionParams = {
+export type PositionParams = {
   margin: [number, number];
   containerPadding: [number, number];
   containerWidth: number;
@@ -197,7 +197,7 @@ function calcGridItemWHPx(gridUnits: number, colOrRowSize: number, marginPx: num
  * @param  {Number}  h                      H coordinate in grid units.
  * @return {Position}                       Object containing coords.
  */
-function calcGridItemPosition(
+export function calcGridItemPosition(
   positionParams: PositionParams,
   x: number,
   y: number,

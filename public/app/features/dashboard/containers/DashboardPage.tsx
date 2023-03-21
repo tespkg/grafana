@@ -2,7 +2,7 @@ import { cx } from '@emotion/css';
 import React, { PureComponent } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 
-import { NavModel, NavModelItem, TimeRange, PageLayoutType, locationUtil } from '@grafana/data';
+import { locationUtil, NavModel, NavModelItem, PageLayoutType, TimeRange } from '@grafana/data';
 import { selectors } from '@grafana/e2e-selectors';
 import { config, locationService } from '@grafana/runtime';
 import { Themeable2, withTheme2 } from '@grafana/ui';
@@ -30,6 +30,7 @@ import { PanelInspector } from '../components/Inspector/PanelInspector';
 import { PanelEditor } from '../components/PanelEditor/PanelEditor';
 import { SubMenu } from '../components/SubMenu/SubMenu';
 import { DashboardGrid } from '../dashgrid/DashboardGrid';
+import { SidePanel } from '../dashgrid/SidePanel';
 import { liveTimer } from '../dashgrid/liveTimer';
 import { getTimeSrv } from '../services/TimeSrv';
 import { cleanUpDashboardAndVariables } from '../state/actions';
@@ -366,12 +367,18 @@ export class UnthemedDashboardPage extends PureComponent<Props, State> {
       'page-hidden': Boolean(queryParams.editview || editPanel),
     });
 
+    // (tespkg) our monification adds a sidePanel. In thery, we don't need to test if side panel is present because the
+    // PageLayoutType.WithSidePanel is compatible with existing Canvas layout. But we leave it here just in case our
+    // monification breaks something. In which case, the user just need to remove the side panel from settings.
+    const hasSidePanel = !!dashboard.sidePanel;
+
     return (
       <>
         <Page
           navModel={sectionNav}
           pageNav={pageNav}
-          layout={PageLayoutType.Canvas}
+          layout={hasSidePanel ? PageLayoutType.WithSidePanel : PageLayoutType.Canvas}
+          sidePanel={hasSidePanel ? <SidePanel dashboard={dashboard} /> : undefined}
           toolbar={toolbar}
           className={pageClassName}
           scrollRef={this.setScrollRef}
