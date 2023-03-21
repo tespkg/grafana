@@ -31,7 +31,8 @@ jobs:
           echo "pushed tespkg/grafana:${GITHUB_SHA}"
           docker push tespkg/grafana:latest
           # tag
-          if [[ ${{ github.event.ref }} =~ ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          if [[ ${{ github.ref_name }} =~ ^v[0-9]+\.[0-9]+\.[0-9x]+$ || \
+             ${{ github.event.ref }} =~ ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             docker tag tespkg/grafana:${GITHUB_SHA} tespkg/grafana:${{ github.ref_name }}
             docker push tespkg/grafana:${{ github.ref_name }}
             echo "pushed tespkg/grafana:${{ github.ref_name }}"
