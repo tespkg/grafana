@@ -156,7 +156,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-type Position = {
+export type Position = {
   left: number;
   top: number;
   width: number;

@@ -1,5 +1,6 @@
 import { css, cx } from '@emotion/css';
 import React, { useEffect, useState } from 'react';
+import { Resizable } from 'react-resizable';
 import { useLocalStorage, useMeasure, useWindowSize } from 'react-use';
 
 import { GrafanaTheme2 } from '@grafana/data';
@@ -10,7 +11,7 @@ import { GRID_CELL_HEIGHT, GRID_COLUMN_COUNT } from 'app/core/constants';
 import { DashboardModel } from '../state';
 
 import { DashboardPanel } from './DashboardPanel';
-import { calcGridItemPosition, PositionParams } from './FloatingPanel';
+import { calcGridItemPosition, calcWH, PositionParams } from './FloatingPanel';
 
 export type Props = {
   dashboard: DashboardModel;
@@ -51,23 +52,40 @@ export function SidePanel(props: Props) {
   const panelWidth = isSmallScreen ? measuredWidth : pos.width;
   const panelHeight = measuredHeight; // always need the measured height
 
+  const handleResizeStop = (width: number, height: number) => {
+    const { w, h } = calcWH(positionParams, width, height, panel.gridPos.x, panel.gridPos.y);
+    panel.updateGridPos({ ...panel.gridPos, w, h });
+  };
+
+  const renderNav = (width: number) => (
+    <nav className={cx(styles.nav, { [styles.navExpanded]: isExpanded })} style={{ width: isExpanded ? width : 0 }}>
+      <DashboardPanel
+        stateKey={panel.key}
+        panel={panel}
+        dashboard={dashboard}
+        isEditing={false}
+        isViewing={false}
+        width={width}
+        height={panelHeight}
+      />
+    </nav>
+  );
+
+  let nav;
+  if (isSmallScreen) {
+    nav = renderNav(panelWidth);
+  } else {
+    nav = (
+      <SidePanelResize width={panelWidth} height={panelHeight} onResizeStop={handleResizeStop}>
+        {renderNav}
+      </SidePanelResize>
+    );
+  }
+
   return (
     <div className={styles.navContainer}>
       <div className={styles.measure} ref={measureRef as any} />
-      <nav
-        className={cx(styles.nav, { [styles.navExpanded]: isExpanded })}
-        style={{ width: isExpanded ? panelWidth : 0 }}
-      >
-        <DashboardPanel
-          stateKey={panel.key}
-          panel={panel}
-          dashboard={dashboard}
-          isEditing={false}
-          isViewing={false}
-          width={panelWidth}
-          height={panelHeight}
-        />
-      </nav>
+      {nav}
       <SectionNavToggle
         className={cx(styles.collapseIcon, {
           [styles.collapseIconExpanded]: isExpanded,
@@ -79,17 +97,46 @@ export function SidePanel(props: Props) {
   );
 }
 
-// function useMeasure<T extends HTMLElement = HTMLDivElement>() {
-//   const [ref, setRef] = useState<T | null>(null);
-//   const [measure, setMeasure] = useState({ width: 0, height: 0 });
-//   useLayoutEffect(() => {
-//     if (ref) {
-//       const { clientWidth, clientHeight } = ref;
-//       setMeasure({ width: clientWidth, height: clientHeight });
-//     }
-//   }, [ref]);
-//   return [setRef, measure] as const;
-// }
+type SidePanelResizeProps = {
+  width: number;
+  height: number;
+  onResizeStop: (width: number, height: number) => void;
+  children: (width: number, height: number) => React.ReactNode;
+};
+
+// only width is resizable, height is ignored
+function SidePanelResize({ width: pw, height: ph, onResizeStop, children }: SidePanelResizeProps) {
+  const [width, setWidth] = useState(pw);
+  return (
+    <Resizable
+      width={width}
+      height={ph}
+      axis="x"
+      resizeHandles={['e']}
+      handle={
+        <div
+          className={cx(
+            'react-resizable-handle',
+            css`
+              width: 2px;
+              position: absolute;
+              right: 0;
+              top: 0;
+              height: 100%;
+              cursor: ew-resize;
+              visibility: inherit;
+            `
+          )}
+        />
+      }
+      maxConstraints={[window.innerWidth / 2, window.innerHeight / 2]} // half screen at most
+      onResize={(_e, data) => setWidth(data.size.width)}
+      onResizeStop={(_e, data) => onResizeStop(data.size.width, pw)}
+    >
+      {children(width, pw)}
+    </Resizable>
+  );
+}
 
 function useExpandToggle() {
   const theme = useTheme2();
