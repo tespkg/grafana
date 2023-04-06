@@ -1,5 +1,5 @@
 import { css } from '@emotion/css';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { components } from 'react-select';
 
 import { escapeStringForRegex, GrafanaTheme2 } from '@grafana/data';
@@ -80,9 +80,21 @@ export const TagFilter = ({
     });
   }, [tagOptions, tags]);
 
+  const unmounted = useRef(false);
+  useEffect(
+    () => () => {
+      unmounted.current = true;
+    },
+    []
+  );
+
   const onFocus = useCallback(async () => {
     setIsLoading(true);
     const results = await onLoadOptions();
+
+    if (unmounted.current) {
+      return;
+    }
 
     if (allowCustomValue) {
       customTags.forEach((customTag) => results.push(customTag));
