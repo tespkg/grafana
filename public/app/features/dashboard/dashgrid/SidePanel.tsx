@@ -116,9 +116,9 @@ function SidePanelResize({ width: pw, height: ph, onResizeStop, children }: Side
       handle={
         <div
           className={cx(
-            'react-resizable-handle',
+            'react-resizable-handle--side-panel',
             css`
-              width: 2px;
+              width: 5px;
               position: absolute;
               right: 0;
               top: 0;
