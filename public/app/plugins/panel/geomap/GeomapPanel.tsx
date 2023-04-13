@@ -19,18 +19,19 @@ import { PanelEditExitedEvent } from 'app/types/events';
 import { GeomapOverlay, OverlayProps } from './GeomapOverlay';
 import { GeomapTooltip } from './GeomapTooltip';
 import { DebugOverlay } from './components/DebugOverlay';
+import { LayerControlOverlay } from './components/LayerControlOverlay';
 import { MeasureOverlay } from './components/MeasureOverlay';
 import { MeasureVectorLayer } from './components/MeasureVectorLayer';
 import { GeomapHoverPayload } from './event';
 import { getGlobalStyles } from './globalStyles';
 import { defaultMarkersConfig } from './layers/data/markersLayer';
 import { DEFAULT_BASEMAP_CONFIG } from './layers/registry';
-import { ControlsOptions, PanelOptions, MapLayerState, MapViewConfig, TooltipMode } from './types';
+import { ControlsOptions, MapLayerState, MapViewConfig, PanelOptions, TooltipMode } from './types';
 import { getActions } from './utils/actions';
 import { getLayersExtent } from './utils/getLayersExtent';
 import { applyLayerFilter, initLayer } from './utils/layers';
 import { pointerClickListener, pointerMoveListener, setTooltipListeners } from './utils/tootltip';
-import { updateMap, getNewOpenLayersMap, notifyPanelEditor } from './utils/utils';
+import { getNewOpenLayersMap, notifyPanelEditor, updateMap } from './utils/utils';
 import { centerPointRegistry, MapCenterID } from './view';
 
 // Allows multiple panels to share the same view instance
@@ -340,9 +341,9 @@ export class GeomapPanel extends Component<Props, State> {
     }
 
     // Update the react overlays
-    let topRight1: ReactNode[] = [];
+    const topRight1: ReactNode[] = [];
     if (options.showMeasure) {
-      topRight1 = [
+      topRight1.push(
         <MeasureOverlay
           key="measure"
           map={this.map}
@@ -350,8 +351,12 @@ export class GeomapPanel extends Component<Props, State> {
           menuActiveState={(value: boolean) => {
             this.setState({ ttipOpen: value, measureMenuActive: value });
           }}
-        />,
-      ];
+        />
+      );
+    }
+
+    if (options.showLayerControl) {
+      topRight1.push(<LayerControlOverlay key="layerControl" map={this.map} layers={this.layers} />);
     }
 
     let topRight2: ReactNode[] = [];

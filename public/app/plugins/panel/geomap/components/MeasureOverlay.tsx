@@ -3,8 +3,7 @@ import Map from 'ol/Map';
 import React, { useMemo, useRef, useState } from 'react';
 
 import { GrafanaTheme2, SelectableValue } from '@grafana/data';
-import { Button, IconButton, RadioButtonGroup, Select, stylesFactory } from '@grafana/ui';
-import { config } from 'app/core/config';
+import { Button, IconButton, RadioButtonGroup, Select, useStyles2 } from '@grafana/ui';
 
 import { MapMeasure, MapMeasureOptions, measures } from '../utils/measure';
 
@@ -17,7 +16,7 @@ type Props = {
 
 export const MeasureOverlay = ({ map, menuActiveState }: Props) => {
   const vector = useRef(new MeasureVectorLayer());
-  const measureStyle = getStyles(config.theme2);
+  const measureStyle = useStyles2(getStyles);
 
   // Menu State Management
   const [firstLoad, setFirstLoad] = useState<boolean>(true);
@@ -109,7 +108,7 @@ export const MeasureOverlay = ({ map, menuActiveState }: Props) => {
   );
 };
 
-const getStyles = stylesFactory((theme: GrafanaTheme2) => ({
+const getStyles = (theme: GrafanaTheme2) => ({
   button: css`
     margin-left: auto;
   `,
@@ -137,4 +136,4 @@ const getStyles = stylesFactory((theme: GrafanaTheme2) => ({
   unitSelect: css`
     min-width: 200px;
   `,
-}));
+});

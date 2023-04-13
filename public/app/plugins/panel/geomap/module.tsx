@@ -92,6 +92,13 @@ export const plugin = new PanelPlugin<PanelOptions>(GeomapPanel)
     builder
       .addBooleanSwitch({
         category,
+        path: 'controls.showLayerControl',
+        name: 'Show layer control',
+        description: 'Show layer control tools',
+        defaultValue: true,
+      })
+      .addBooleanSwitch({
+        category,
         path: 'controls.showZoom',
         description: 'Show zoom control buttons in the upper left corner',
         name: 'Show zoom control',

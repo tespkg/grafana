@@ -47,6 +47,7 @@ export const defaultMapViewConfig: Partial<MapViewConfig> = {
 };
 
 export interface ControlsOptions {
+  showLayerControl?: boolean;
   /**
    * let the mouse wheel zoom
    */
