@@ -40,6 +40,9 @@ const getStyles = (topRight1Exists: boolean) => (theme: GrafanaTheme2) => ({
     pointer-events: auto;
     position: absolute;
     top: 0.5em;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
   `,
   TR2: css`
     position: absolute;
