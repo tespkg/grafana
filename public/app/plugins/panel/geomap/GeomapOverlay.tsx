@@ -9,11 +9,12 @@ export interface OverlayProps {
   topRight2?: React.ReactNode[];
   bottomLeft?: React.ReactNode[];
   blStyle?: CSSProperties;
+  hasTitle?: boolean;
 }
 
-export const GeomapOverlay = ({ topRight1, topRight2, bottomLeft, blStyle }: OverlayProps) => {
+export const GeomapOverlay = ({ topRight1, topRight2, bottomLeft, blStyle, hasTitle }: OverlayProps) => {
   const topRight1Exists = (topRight1 && topRight1.length > 0) ?? false;
-  const styles = useStyles2(getStyles(topRight1Exists));
+  const styles = useStyles2(getStyles(topRight1Exists, hasTitle));
   return (
     <div className={styles.overlay}>
       {Boolean(topRight1?.length) && <div className={styles.TR1}>{topRight1}</div>}
@@ -27,7 +28,7 @@ export const GeomapOverlay = ({ topRight1, topRight2, bottomLeft, blStyle }: Ove
   );
 };
 
-const getStyles = (topRight1Exists: boolean) => (theme: GrafanaTheme2) => ({
+const getStyles = (topRight1Exists: boolean, hasTitle?: boolean) => (theme: GrafanaTheme2) => ({
   overlay: css`
     position: absolute;
     width: 100%;
@@ -39,7 +40,7 @@ const getStyles = (topRight1Exists: boolean) => (theme: GrafanaTheme2) => ({
     right: 0.5em;
     pointer-events: auto;
     position: absolute;
-    top: 0.5em;
+    top: ${hasTitle ? '0.5' : '1.5'}em;
     display: flex;
     flex-direction: column;
     align-items: flex-end;

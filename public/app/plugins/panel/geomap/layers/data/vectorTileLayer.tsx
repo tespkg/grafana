@@ -99,7 +99,6 @@ export const vectorTileLayer: MapLayerRegistryItem<VectorTileConfig> = {
   hideOpacity: true,
 
   create: async (map: Map, options: MapLayerOptions<VectorTileConfig>, eventBus: EventBus, theme: GrafanaTheme2) => {
-    console.log('create vector tile layer');
     const styleFunc = new Function(
       'olStyle',
       'Circle',

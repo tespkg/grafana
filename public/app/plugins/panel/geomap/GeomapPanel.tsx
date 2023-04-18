@@ -396,6 +396,7 @@ export class GeomapPanel extends Component<Props, State> {
             topRight1={topRight1}
             topRight2={topRight2}
             blStyle={{ bottom: showScale ? '35px' : '8px' }}
+            hasTitle={!!this.props.title && this.props.title.length > 0}
           />
         </div>
         <GeomapTooltip ttip={ttip} isOpen={ttipOpen} onClose={this.tooltipPopupClosed} />
