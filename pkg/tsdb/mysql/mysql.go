@@ -51,9 +51,11 @@ func ProvideService(cfg *setting.Cfg, httpClientProvider httpclient.Provider) *S
 func newInstanceSettings(cfg *setting.Cfg, httpClientProvider httpclient.Provider) datasource.InstanceFactoryFunc {
 	return func(settings backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
 		jsonData := sqleng.JsonData{
-			MaxOpenConns:    0,
-			MaxIdleConns:    2,
-			ConnMaxLifetime: 14400,
+			MaxOpenConns:            cfg.SqlDatasourceMaxOpenConnsDefault,
+			MaxIdleConns:            cfg.SqlDatasourceMaxIdleConnsDefault,
+			ConnMaxLifetime:         cfg.SqlDatasourceMaxConnLifetimeDefault,
+			SecureDSProxy:           false,
+			AllowCleartextPasswords: false,
 		}
 
 		err := json.Unmarshal(settings.JSONData, &jsonData)
@@ -89,6 +91,10 @@ func newInstanceSettings(cfg *setting.Cfg, httpClientProvider httpclient.Provide
 			characterEscape(dsInfo.URL, ")"),
 			characterEscape(dsInfo.Database, "?"),
 		)
+
+		if dsInfo.JsonData.AllowCleartextPasswords {
+			cnnstr += "&allowCleartextPasswords=true"
+		}
 
 		opts, err := settings.HTTPClientOptions()
 		if err != nil {
@@ -148,7 +154,6 @@ func (s *Service) CheckHealth(ctx context.Context, req *backend.CheckHealthReque
 	}
 
 	err = dsHandler.Ping()
-
 	if err != nil {
 		var driverErr *mysql.MySQLError
 		if errors.As(err, &driverErr) {
@@ -167,8 +172,7 @@ func (s *Service) QueryData(ctx context.Context, req *backend.QueryDataRequest) 
 	return dsHandler.QueryData(ctx, req)
 }
 
-type mysqlQueryResultTransformer struct {
-}
+type mysqlQueryResultTransformer struct{}
 
 func (t *mysqlQueryResultTransformer) TransformQueryError(logger log.Logger, err error) error {
 	var driverErr *mysql.MySQLError

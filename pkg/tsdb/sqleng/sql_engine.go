@@ -51,22 +51,24 @@ var NewXormEngine = func(driverName string, connectionString string) (*xorm.Engi
 }
 
 type JsonData struct {
-	MaxOpenConns        int    `json:"maxOpenConns"`
-	MaxIdleConns        int    `json:"maxIdleConns"`
-	ConnMaxLifetime     int    `json:"connMaxLifetime"`
-	ConnectionTimeout   int    `json:"connectionTimeout"`
-	Timescaledb         bool   `json:"timescaledb"`
-	Mode                string `json:"sslmode"`
-	ConfigurationMethod string `json:"tlsConfigurationMethod"`
-	TlsSkipVerify       bool   `json:"tlsSkipVerify"`
-	RootCertFile        string `json:"sslRootCertFile"`
-	CertFile            string `json:"sslCertFile"`
-	CertKeyFile         string `json:"sslKeyFile"`
-	Timezone            string `json:"timezone"`
-	Encrypt             string `json:"encrypt"`
-	Servername          string `json:"servername"`
-	TimeInterval        string `json:"timeInterval"`
-	Database            string `json:"database"`
+	MaxOpenConns            int    `json:"maxOpenConns"`
+	MaxIdleConns            int    `json:"maxIdleConns"`
+	ConnMaxLifetime         int    `json:"connMaxLifetime"`
+	ConnectionTimeout       int    `json:"connectionTimeout"`
+	Timescaledb             bool   `json:"timescaledb"`
+	Mode                    string `json:"sslmode"`
+	ConfigurationMethod     string `json:"tlsConfigurationMethod"`
+	TlsSkipVerify           bool   `json:"tlsSkipVerify"`
+	RootCertFile            string `json:"sslRootCertFile"`
+	CertFile                string `json:"sslCertFile"`
+	CertKeyFile             string `json:"sslKeyFile"`
+	Timezone                string `json:"timezone"`
+	Encrypt                 string `json:"encrypt"`
+	Servername              string `json:"servername"`
+	TimeInterval            string `json:"timeInterval"`
+	Database                string `json:"database"`
+	SecureDSProxy           bool   `json:"enableSecureSocksProxy"`
+	AllowCleartextPasswords bool   `json:"allowCleartextPasswords"`
 }
 
 type DataSourceInfo struct {
@@ -122,7 +124,8 @@ func (e *DataSourceHandler) TransformQueryError(logger log.Logger, err error) er
 }
 
 func NewQueryDataHandler(config DataPluginConfiguration, queryResultTransformer SqlQueryResultTransformer,
-	macroEngine SQLMacroEngine, log log.Logger) (*DataSourceHandler, error) {
+	macroEngine SQLMacroEngine, log log.Logger,
+) (*DataSourceHandler, error) {
 	log.Debug("Creating engine...")
 	defer func() {
 		log.Debug("Engine created")
@@ -212,7 +215,8 @@ func (e *DataSourceHandler) QueryData(ctx context.Context, req *backend.QueryDat
 }
 
 func (e *DataSourceHandler) executeQuery(query backend.DataQuery, wg *sync.WaitGroup, queryContext context.Context,
-	ch chan DBDataResponse, queryJson QueryJson) {
+	ch chan DBDataResponse, queryJson QueryJson,
+) {
 	defer wg.Done()
 	queryResult := DBDataResponse{
 		dataResponse: backend.DataResponse{},
@@ -394,7 +398,8 @@ var Interpolate = func(query backend.DataQuery, timeRange backend.TimeRange, tim
 }
 
 func (e *DataSourceHandler) newProcessCfg(query backend.DataQuery, queryContext context.Context,
-	rows *core.Rows, interpolatedQuery string) (*dataQueryModel, error) {
+	rows *core.Rows, interpolatedQuery string,
+) (*dataQueryModel, error) {
 	columnNames, err := rows.Columns()
 	if err != nil {
 		return nil, err
