@@ -130,7 +130,7 @@ export const ConfigurationEditor = (props: DataSourcePluginOptionsEditorProps<My
           ></InlineSwitch>
         </InlineField>
         <InlineField
-          labelWidth={mediumWidth}
+          labelWidth={longWidth}
           tooltip={
             <span>
               Allows using the cleartext client side plugin if required by an account, such as one defined with the PAM
