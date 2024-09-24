@@ -51,9 +51,9 @@ func ProvideService(cfg *setting.Cfg, httpClientProvider httpclient.Provider) *S
 func newInstanceSettings(cfg *setting.Cfg, httpClientProvider httpclient.Provider) datasource.InstanceFactoryFunc {
 	return func(settings backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
 		jsonData := sqleng.JsonData{
-			MaxOpenConns:            cfg.SqlDatasourceMaxOpenConnsDefault,
-			MaxIdleConns:            cfg.SqlDatasourceMaxIdleConnsDefault,
-			ConnMaxLifetime:         cfg.SqlDatasourceMaxConnLifetimeDefault,
+			MaxOpenConns:            0,
+			MaxIdleConns:            2,
+			ConnMaxLifetime:         14400,
 			SecureDSProxy:           false,
 			AllowCleartextPasswords: false,
 		}
