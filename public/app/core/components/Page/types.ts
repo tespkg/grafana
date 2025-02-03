@@ -28,6 +28,7 @@ export interface PageProps extends HTMLAttributes<HTMLDivElement> {
   scrollTop?: number;
   /** Use SidePanel layout to render side panel */
   sidePanel?: React.ReactNode;
+  tabs?: React.ReactNode;
 }
 
 export interface PageInfoItem {

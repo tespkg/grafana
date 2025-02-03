@@ -95,6 +95,7 @@ export class DashboardModel implements TimeModel {
   gnetId: any;
   panels: PanelModel[];
   sidePanel?: number;
+  tabs?: number;
   panelInEdit?: PanelModel;
   panelInView?: PanelModel;
   fiscalYearStartMonth?: number;
@@ -136,6 +137,7 @@ export class DashboardModel implements TimeModel {
     this.title = data.title ?? 'No Title';
     this.description = data.description;
     this.sidePanel = data.sidePanel;
+    this.tabs = data.tabs;
     this.tags = data.tags ?? [];
     this.style = data.style ?? 'dark';
     this.timezone = data.timezone ?? '';
@@ -972,7 +974,7 @@ export class DashboardModel implements TimeModel {
   }
 
   isNormalPanel(p: PanelModel) {
-    return !p.floating && p.id !== this.sidePanel;
+    return !p.floating && p.id !== this.sidePanel && p.id !== this.tabs;
   }
 
   /** @deprecated */

@@ -93,6 +93,11 @@ export function GeneralSettingsUnconnected({
     setRenderCounter(renderCounter + 1);
   };
 
+  const onDashboardTabsChange = (value?: number) => {
+    dashboard.tabs = value;
+    setRenderCounter(renderCounter + 1);
+  };
+
   const editableOptions = [
     { label: 'Editable', value: true },
     { label: 'Read-only', value: false },
@@ -127,6 +132,12 @@ export function GeneralSettingsUnconnected({
             description="Take a panel out of the grid and pin to left side. The size of the panel depend on it's original size"
           >
             <PanelPicker value={dashboard.sidePanel} panels={dashboard.panels} onChange={onSidepanelChange} />
+          </Field>
+          <Field
+            label="Dashboard Tabs"
+            description="Take a panel out of the grid and pin to tab bar (for listing same folder dashboards as tabs)"
+          >
+            <PanelPicker value={dashboard.tabs} panels={dashboard.panels} onChange={onDashboardTabsChange} />
           </Field>
 
           <Field

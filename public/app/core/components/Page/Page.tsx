@@ -13,6 +13,7 @@ import { Page as NewPage } from '../PageNew/Page';
 import { OldNavOnly } from './OldNavOnly';
 import { PageContents } from './PageContents';
 import { WithSidePanel } from './WithSidePanel';
+import { WithTabsPanel } from "./WithTabsPanel";
 import { PageType } from './types';
 import { usePageNav } from './usePageNav';
 import { usePageTitle } from './usePageTitle';
@@ -25,6 +26,7 @@ export const OldPage: PageType = ({
   className,
   toolbar,
   sidePanel,
+  tabs,
   scrollRef,
   scrollTop,
   layout = PageLayoutType.Standard,
@@ -63,6 +65,7 @@ export const OldPage: PageType = ({
       {layout === PageLayoutType.Canvas && (
         <>
           {toolbar}
+          {tabs ? <WithTabsPanel tabs={tabs} /> : ""}
           <div className={styles.scrollWrapper}>
             <CustomScrollbar autoHeightMin={'100%'} scrollTop={scrollTop} scrollRefCallback={scrollRef}>
               <div className={cx(styles.content, !toolbar && styles.contentWithoutToolbar)}>{children}</div>
@@ -73,6 +76,7 @@ export const OldPage: PageType = ({
       {layout === PageLayoutType.WithSidePanel && (
         <>
           {toolbar}
+          {tabs ? <WithTabsPanel tabs={tabs} /> : ""}
           <WithSidePanel sidePanel={sidePanel}>
             <CustomScrollbar autoHeightMin={'100%'} scrollTop={scrollTop} scrollRefCallback={scrollRef}>
               <div className={cx(styles.content, !toolbar && styles.contentWithoutToolbar)}>{children}</div>
@@ -83,6 +87,7 @@ export const OldPage: PageType = ({
       {layout === PageLayoutType.Custom && (
         <>
           {toolbar}
+          {tabs ? <WithTabsPanel tabs={tabs} /> : ""}
           {children}
         </>
       )}

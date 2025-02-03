@@ -583,7 +583,7 @@ export interface FieldConfig {
   /**
    * An explicit path to the field in the datasource.  When the frame meta includes a path,
    * This will default to `${frame.meta.path}/${field.name}
-   * 
+   *
    * When defined, this value can be used as an identifier within the datasource scope, and
    * may be used to update the results
    */
@@ -710,6 +710,7 @@ export interface Dashboard {
    * The floating panel id to show on the left side of the dashboard. Hidden if empty
    */
   sidePanel?: number;
+  tabs?: number;
   snapshot?: {
     /**
      * TODO docs

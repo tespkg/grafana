@@ -74,6 +74,7 @@ lineage: seqs: [
 				panels?: [...(#Panel | #RowPanel | #GraphPanel | #HeatmapPanel)] @grafanamaturity(NeedsExpertReview)
 				// The floating panel id to show on the left side of the dashboard. Hidden if empty
 				sidePanel?: uint32
+				tabs?: uint32
 				// TODO docs
 				templating?: {
 					list?: [...#VariableModel] @grafanamaturity(NeedsExpertReview)
