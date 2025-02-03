@@ -245,6 +245,9 @@ type Dashboard struct {
 	// The floating panel id to show on the left side of the dashboard. Hidden if empty
 	SidePanel *int `json:"sidePanel,omitempty"`
 
+	// The panel id to show on the tab bar pf dashboard
+	Tabs *int `json:"tabs,omitempty"`
+
 	// TODO docs
 	Snapshot *Snapshot `json:"snapshot,omitempty"`
 

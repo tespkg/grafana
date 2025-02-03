@@ -192,6 +192,7 @@ export class DashboardGrid extends PureComponent<Props, State> {
   renderFloatingPanels() {
     const panels = this.props.dashboard.panels.filter(
       (panel) => panel.floating && !panel.isViewing && panel.id !== this.props.dashboard.sidePanel
+        && panel.id !== this.props.dashboard.tabs
     );
     return (
       <FloatingPanels

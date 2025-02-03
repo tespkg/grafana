@@ -31,6 +31,7 @@ import { PanelEditor } from '../components/PanelEditor/PanelEditor';
 import { SubMenu } from '../components/SubMenu/SubMenu';
 import { DashboardGrid } from '../dashgrid/DashboardGrid';
 import { SidePanel } from '../dashgrid/SidePanel';
+import {Tabs} from "../dashgrid/Tabs";
 import { liveTimer } from '../dashgrid/liveTimer';
 import { getTimeSrv } from '../services/TimeSrv';
 import { cleanUpDashboardAndVariables } from '../state/actions';
@@ -380,6 +381,7 @@ export class UnthemedDashboardPage extends PureComponent<Props, State> {
           layout={hasSidePanel ? PageLayoutType.WithSidePanel : PageLayoutType.Canvas}
           sidePanel={hasSidePanel ? <SidePanel dashboard={dashboard} /> : undefined}
           toolbar={toolbar}
+          tabs={dashboard.tabs ? <Tabs dashboard={dashboard} /> : undefined}
           className={pageClassName}
           scrollRef={this.setScrollRef}
           scrollTop={updateScrollTop}
