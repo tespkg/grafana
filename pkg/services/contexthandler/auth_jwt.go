@@ -3,10 +3,9 @@ package contexthandler
 import (
 	"errors"
 	"fmt"
+	"github.com/jmespath/go-jmespath"
 	"net/http"
 	"strings"
-
-	"github.com/jmespath/go-jmespath"
 
 	"github.com/grafana/grafana/pkg/login"
 	"github.com/grafana/grafana/pkg/models/roletype"
@@ -31,6 +30,14 @@ func (h *ContextHandler) initContextWithJWT(ctx *contextmodel.ReqContext, orgId 
 	jwtToken := ctx.Req.Header.Get(h.Cfg.JWTAuthHeaderName)
 	if jwtToken == "" && h.Cfg.JWTAuthURLLogin {
 		jwtToken = ctx.Req.URL.Query().Get("auth_token")
+	}
+	if jwtToken == "" {
+		cookie, err := ctx.Req.Cookie("__Secure-access_token")
+		if err == nil {
+			jwtToken = cookie.Value
+		} else {
+			ctx.Logger.Warn("Failed to get JWT token from cookie", "error", err)
+		}
 	}
 
 	if jwtToken == "" {
