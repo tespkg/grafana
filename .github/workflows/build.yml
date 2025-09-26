@@ -17,7 +17,7 @@ jobs:
 
       # Add this step to free up disk space
       - name: Maximize build space
-        uses: easimon/maximize-build-space-action@v10
+        uses: uilicious/maximize-build-space-action@v1
         with:
           root-reserve-mb: 512
           swap-size-mb: 1024
