@@ -19,3 +19,4 @@ jobs:
         run: |
           docker manifest create tespkg/grafana:${{ github.ref_name }} tespkg/grafana:${GITHUB_SHA}
           docker manifest push tespkg/grafana:${{ github.ref_name }}
+          
