@@ -15,6 +15,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      # Add this step to free up disk space
+      - name: Maximize build space
+        uses: easimon/maximize-build-space-action@v10
+        with:
+          root-reserve-mb: 512
+          swap-size-mb: 1024
+          remove-dotnet: 'true'
+          remove-android: 'true'
+          remove-haskell: 'true'
+
       - name: Build docker image
         run: DOCKER_BUILDKIT=1 docker build -t tespkg/grafana:${GITHUB_SHA} .
 
