@@ -84,6 +84,7 @@ async function setupTestContext({
     timeZone: 'utc',
     title: 'Test Title',
     transparent: false,
+    floating: false,
     width: 320,
   };
   const { rerender } = render(<AnnoListPanel {...props} />);

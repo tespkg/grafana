@@ -35,6 +35,7 @@ const defaultProps: Props = {
   },
   timeZone: 'utc',
   transparent: false,
+  floating: false,
   width: 120,
   height: 120,
   fieldConfig: {

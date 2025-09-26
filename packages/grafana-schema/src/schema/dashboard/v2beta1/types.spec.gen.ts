@@ -93,6 +93,7 @@ export interface PanelSpec {
 	data: QueryGroupKind;
 	vizConfig: VizConfigKind;
 	transparent?: boolean;
+	floating?: boolean;
 }
 
 export const defaultPanelSpec = (): PanelSpec => ({
@@ -1455,6 +1456,7 @@ export interface Spec {
 	description?: string;
 	// Whether a dashboard is editable or not.
 	editable?: boolean;
+	sidePanel?: number;
 	elements: Record<string, Element>;
 	layout: GridLayoutKind | RowsLayoutKind | AutoGridLayoutKind | TabsLayoutKind;
 	// Links with references to other dashboards or external websites.

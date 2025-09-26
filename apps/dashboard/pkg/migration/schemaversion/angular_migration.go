@@ -48,6 +48,7 @@ var mustKeepProperties = []string{
 	"queryCachingTTL",
 	"cachedPluginOptions",
 	"transparent",
+	"floating",
 	"pluginVersion",
 	"queryRunner",
 	"transformations",

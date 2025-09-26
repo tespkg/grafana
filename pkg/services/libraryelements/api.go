@@ -653,6 +653,9 @@ func (lk8s *libraryElementsK8sHandler) unstructuredToLegacyLibraryPanelDTO(c *co
 	if libraryPanelSpec.Transparent {
 		legacyModel["transparent"] = libraryPanelSpec.Transparent
 	}
+	if libraryPanelSpec.Floating {
+		legacyModel["floating"] = libraryPanelSpec.Floating
+	}
 	finalModel, err := json.Marshal(legacyModel)
 	if err != nil {
 		return nil, fmt.Errorf("failed to marshal model: %w", err)

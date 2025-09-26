@@ -89,6 +89,7 @@ export interface PanelProps<T = any> {
 
   /** Indicates whether or not panel should be rendered transparent */
   transparent: boolean;
+  floating: boolean;
 
   /** Current width of the panel in pixels */
   width: number;

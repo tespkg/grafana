@@ -17,6 +17,7 @@
     <link rel="icon" type="image/png" href="[[.FavIcon]]" />
     <link rel="apple-touch-icon" sizes="180x180" href="[[.AppleTouchIcon]]" />
     <link rel="mask-icon" href="[[.Assets.ContentDeliveryURL]]public/img/grafana_mask_icon.svg" color="#F05A28" />
+    <link rel="stylesheet" href="[[.Assets.ContentDeliveryURL]]public/custom/custom-style.css" />
 
     [[range $asset := .Assets.CSSFiles]]
       <link rel="stylesheet" href="[[$asset.FilePath]]" />
@@ -269,6 +270,11 @@
 
     <script nonce="[[.Nonce]]">
       window.grafanaBootData = {
+        // (tespkg) branding
+        branding: {
+          appTitle: '[[.AppTitle]]',
+          loginTitle: '[[.LoginTitle]]',
+        },
         user: [[.User]],
         settings: [[.Settings]],
         navTree: [[.NavTree]],

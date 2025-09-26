@@ -138,6 +138,7 @@ const defaultProps: PanelProps<UnifiedAlertListOptions> = {
   replaceVariables: jest.fn(),
   title: 'Alert groups test',
   transparent: false,
+  floating: false,
   width: 320,
 };
 

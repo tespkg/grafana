@@ -185,6 +185,7 @@ export function transformSaveModelSchemaV2ToScene(dto: DashboardWithAccessInfo<D
     {
       description: dashboard.description,
       editable: dashboard.editable,
+      sidePanel: dashboard.sidePanel,
       preload: dashboard.preload,
       id: dashboardId,
       isDirty: false,

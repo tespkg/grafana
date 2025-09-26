@@ -202,6 +202,7 @@ describe('PublicDashboardPage', () => {
           repeatDirection: 'h',
           transformations: [],
           transparent: false,
+          floating: false,
         },
       ];
 

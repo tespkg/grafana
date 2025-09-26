@@ -73,6 +73,7 @@ export class DashboardModel implements TimeModel {
   uid: any;
   title: string;
   description: any;
+  sidePanel?: number;
   tags: any;
   style: any;
   timezone: any;
@@ -150,6 +151,7 @@ export class DashboardModel implements TimeModel {
     this.description = data.description;
     this.tags = data.tags ?? [];
     this.timezone = data.timezone ?? '';
+    this.sidePanel = data.sidePanel ?? 0;
     this.weekStart = data.weekStart ?? '';
     this.editable = data.editable !== false;
     this.graphTooltip = data.graphTooltip || 0;

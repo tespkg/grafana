@@ -150,6 +150,7 @@ type Panel struct {
 	Description *string `json:"description,omitempty"`
 	// Whether to display the panel without a background.
 	Transparent *bool `json:"transparent,omitempty"`
+	Floating    *bool `json:"floating,omitempty"`
 	// The datasource used in all targets.
 	Datasource *DataSourceRef `json:"datasource,omitempty"`
 	// Grid position.
@@ -207,6 +208,7 @@ type Panel struct {
 func NewPanel() *Panel {
 	return &Panel{
 		Transparent: (func(input bool) *bool { return &input })(false),
+		Floating:    (func(input bool) *bool { return &input })(false),
 	}
 }
 

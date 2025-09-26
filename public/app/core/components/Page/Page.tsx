@@ -8,6 +8,7 @@ import { useGrafana } from 'app/core/context/GrafanaContext';
 import NativeScrollbar from '../NativeScrollbar';
 
 import { PageContents } from './PageContents';
+import { WithSidePanel } from './WithSidePanel';
 import { PageHeader } from './PageHeader';
 import { PageTabs } from './PageTabs';
 import { PageType } from './types';
@@ -24,6 +25,7 @@ export const Page: PageType = ({
   subTitle,
   children,
   className,
+  sidePanel,
   info,
   layout = PageLayoutType.Standard,
   onSetScrollRef,
@@ -82,6 +84,18 @@ export const Page: PageType = ({
         >
           <div className={styles.canvasContent}>{children}</div>
         </NativeScrollbar>
+      )}
+
+      {layout === PageLayoutType.WithSidePanel && (
+          <>
+            <WithSidePanel
+                divId="side-panel"
+                sidePanel={sidePanel}
+                onSetScrollRef={onSetScrollRef}
+            >
+              <div className={cx('p-a-0', styles.canvasContent)}>{children}</div>
+            </WithSidePanel>
+          </>
       )}
 
       {layout === PageLayoutType.Custom && children}

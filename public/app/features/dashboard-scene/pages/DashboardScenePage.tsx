@@ -4,7 +4,7 @@ import { usePrevious } from 'react-use';
 
 import { PageLayoutType } from '@grafana/data';
 import { locationService } from '@grafana/runtime';
-import { UrlSyncContextProvider } from '@grafana/scenes';
+import {UrlSyncContextProvider, VizPanel} from '@grafana/scenes';
 import { Box } from '@grafana/ui';
 import { Page } from 'app/core/components/Page/Page';
 import PageLoader from 'app/core/components/PageLoader/PageLoader';
@@ -18,7 +18,8 @@ import { DashboardRoutes } from 'app/types/dashboard';
 import { DashboardPrompt } from '../saving/DashboardPrompt';
 import { preserveDashboardSceneStateInLocalStorage } from '../utils/dashboardSessionState';
 
-import { getDashboardScenePageStateManager } from './DashboardScenePageStateManager';
+import {getDashboardScenePageStateManager} from './DashboardScenePageStateManager';
+import {SidePanel} from '../../dashboard/dashgrid/SidePanel';
 
 export interface Props
   extends Omit<GrafanaRouteComponentProps<DashboardPageRouteParams, DashboardPageRouteSearchParams>, 'match'> {}
@@ -101,16 +102,32 @@ export function DashboardScenePage({ route, queryParams, location }: Props) {
   // A bit tricky for transition to or from Home dashboard that does not have a uid in the url (but could have it in the dashboard model)
   // if prevMatch is undefined we are going from normal route to home route or vice versa
   if (type !== 'snapshot' && (!prevMatch || uid !== prevMatch?.params.uid)) {
-    console.log('skipping rendering');
     return null;
   }
 
+  // Check if we're on the main dashboard view (not settings or edit pages)
+  const isMainDashboardView = !queryParams.editPanel &&
+      !queryParams.viewPanel &&
+      !queryParams.editview &&
+      !location.pathname.includes('/settings');
+
+  // Only show side panel on main dashboard view
+  const hasSidePanel = !!dashboard.state.sidePanel && isMainDashboardView;
+
+  const sidePanel = dashboard.state.body.getVizPanels().
+      find((p: VizPanel) => parseInt(p.state.key?.replace('panel-', '') || '') === dashboard.state.sidePanel)
+
   return (
-    <UrlSyncContextProvider scene={dashboard} updateUrlOnInit={true} createBrowserHistorySteps={true}>
-      <DashboardPreviewBanner queryParams={queryParams} route={route.routeName} slug={slug} path={path} />
-      <dashboard.Component model={dashboard} key={dashboard.state.key} />
-      <DashboardPrompt dashboard={dashboard} />
-    </UrlSyncContextProvider>
+      <UrlSyncContextProvider scene={dashboard} updateUrlOnInit={true} createBrowserHistorySteps={true}>
+          <Page navId="dashboards/browse"
+              layout={hasSidePanel ? PageLayoutType.WithSidePanel : PageLayoutType.Canvas}
+              sidePanel={hasSidePanel ? <SidePanel panel={sidePanel} /> : undefined}
+          >
+            <DashboardPreviewBanner queryParams={queryParams} route={route.routeName} slug={slug} path={path} />
+            <dashboard.Component model={dashboard} key={dashboard.state.key}/>
+            <DashboardPrompt dashboard={dashboard}/>
+          </Page>
+      </UrlSyncContextProvider>
   );
 }
 

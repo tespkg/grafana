@@ -129,6 +129,7 @@ const defaultProps = {
   title: 'Logs panel',
   id: 1,
   transparent: false,
+  floating: false,
   width: 400,
   height: 100,
   renderCounter: 0,

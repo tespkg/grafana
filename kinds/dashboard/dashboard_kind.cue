@@ -82,6 +82,9 @@ lineage: schemas: [{
 			// List of dashboard panels
 			panels?: [...(#Panel | #RowPanel)]
 
+            // The side panel id to show on the left side of the dashboard. Hidden if empty
+			sidePanel?: unit32
+
 			// Configured template variables
 			templating?: {
 				// List of configured template variables with their saved values along with some other metadata
@@ -611,6 +614,8 @@ lineage: schemas: [{
 
 			// Whether to display the panel without a background.
 			transparent?: bool | *false
+
+			floating?: bool | *false
 
 			// The datasource used in all targets.
 			datasource?: #DataSourceRef

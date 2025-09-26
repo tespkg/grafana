@@ -76,6 +76,7 @@ export function transformSceneToSaveModelSchemaV2(scene: DashboardScene, isSnaps
     //dashboard settings
     title: sceneDash.title,
     description: sceneDash.description,
+    sidePanel: sceneDash.sidePanel,
     cursorSync: getCursorSync(sceneDash),
     liveNow: getLiveNow(sceneDash),
     preload: sceneDash.preload ?? defaultDashboardV2Spec().preload,
@@ -190,6 +191,7 @@ export function vizPanelToSchemaV2(
       description: vizPanel.state.description ?? '',
       links: getPanelLinks(vizPanel),
       transparent: vizPanel.state.displayMode === 'transparent' ? true : undefined,
+      floating: vizPanel.state.floating,
       data: {
         kind: 'QueryGroup',
         spec: {

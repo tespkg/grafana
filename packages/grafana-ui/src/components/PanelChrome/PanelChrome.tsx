@@ -57,6 +57,7 @@ interface BaseProps {
   leftItems?: ReactNode[];
   actions?: ReactNode;
   displayMode?: 'default' | 'transparent';
+  floating?: boolean;
   onCancelQuery?: () => void;
   /**
    * callback when opening the panel menu

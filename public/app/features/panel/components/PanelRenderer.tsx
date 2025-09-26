@@ -103,6 +103,7 @@ export function PanelRenderer<P extends object = {}, F extends object = {}>(prop
           options={optionsWithDefaults!.options}
           fieldConfig={fieldConfig}
           transparent={false}
+          floating={false}
           width={width}
           height={height}
           renderCounter={0}

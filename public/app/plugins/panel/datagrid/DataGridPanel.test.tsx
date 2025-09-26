@@ -540,6 +540,7 @@ const buildPanelProps = (...df: DataFrame[]) => {
     width: 500,
     height: 500,
     transparent: false,
+    floating: false,
     renderCounter: 0,
     onOptionsChange: jest.fn(),
     onFieldConfigChange: jest.fn(),

@@ -105,6 +105,7 @@ type LibraryPanelSpec struct {
 
 	// Whether the panel is transparent
 	Transparent bool `json:"transparent,omitempty"`
+	Floating    bool `json:"floating,omitempty"`
 
 	// The links for the panel
 	Links []common.Unstructured `json:"links,omitempty"`

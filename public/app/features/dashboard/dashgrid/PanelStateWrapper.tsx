@@ -534,6 +534,7 @@ export class PanelStateWrapper extends PureComponent<Props, State> {
             options={panelOptions}
             fieldConfig={panel.fieldConfig}
             transparent={panel.transparent}
+            floating={panel.floating}
             width={innerWidth}
             height={innerHeight}
             renderCounter={renderCounter}

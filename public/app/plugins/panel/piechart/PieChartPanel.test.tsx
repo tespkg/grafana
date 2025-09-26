@@ -246,6 +246,7 @@ const setup = (propsOverrides?: {}) => {
     renderCounter: 0,
     title: 'A pie chart',
     transparent: false,
+    floating: false,
     onFieldConfigChange: () => {},
     onOptionsChange: () => {},
     onChangeTimeRange: () => {},

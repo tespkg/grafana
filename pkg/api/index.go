@@ -6,6 +6,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"net/http"
+	"os"
 	"strings"
 
 	claims "github.com/grafana/authlib/types"
@@ -186,12 +187,15 @@ func (hs *HTTPServer) setIndexViewData(c *contextmodel.ReqContext) (*dtos.IndexV
 		AppNameBodyClass:                    "app-grafana",
 		FavIcon:                             "public/img/fav32.png",
 		AppleTouchIcon:                      "public/img/apple-touch-icon.png",
-		AppTitle:                            "Grafana",
 		NavTree:                             navTree,
 		Nonce:                               c.RequestNonce,
 		LoadingLogo:                         "public/img/grafana_icon.svg",
 		IsDevelopmentEnv:                    hs.Cfg.Env == setting.Dev,
 		Assets:                              assets,
+
+		// (tespkg) branding
+		AppTitle:   getEnvOrDefault("APP_TITLE", "Grafana"),
+		LoginTitle: getEnvOrDefault("LOGIN_TITLE", "Welcome to Grafana"),
 	}
 
 	if hs.Cfg.CSPEnabled {
@@ -310,4 +314,11 @@ func (hs *HTTPServer) getThemeForIndexData(themePrefId string, themeURLParam str
 	}
 
 	return pref.GetThemeByID(hs.Cfg.DefaultTheme)
+}
+
+func getEnvOrDefault(key string, defaultValue string) string {
+	if value, ok := os.LookupEnv(key); ok {
+		return value
+	}
+	return defaultValue
 }

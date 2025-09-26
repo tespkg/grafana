@@ -916,6 +916,7 @@ export interface Panel {
    * Whether to display the panel without a background.
    */
   transparent?: boolean;
+  floating?: boolean;
   /**
    * The panel plugin type id. This is used to find the plugin to display the panel.
    */
@@ -928,6 +929,7 @@ export const defaultPanel: Partial<Panel> = {
   targets: [],
   transformations: [],
   transparent: false,
+  floating: false,
 };
 
 /**
@@ -1186,6 +1188,7 @@ export interface Dashboard {
    * When set to true, the dashboard will load all panels in the dashboard when it's loaded.
    */
   preload?: boolean;
+  sidePanel?: number;
   /**
    * Refresh rate of dashboard. Represented via interval string, e.g. "5s", "1m", "1h", "1d".
    */

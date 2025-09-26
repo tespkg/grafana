@@ -65,6 +65,7 @@ export function buildVizPanel(panel: PanelKind, id?: number): VizPanel {
     fieldConfig: transformMappingsToV1(panel.spec.vizConfig.spec.fieldConfig),
     pluginVersion: panel.spec.vizConfig.version,
     displayMode: panel.spec.transparent ? 'transparent' : 'default',
+    floating: panel.spec.floating ?? false,
     hoverHeader: !panel.spec.title && !timeOverrideShown,
     hoverHeaderOffset: 0,
     seriesLimit: config.panelSeriesLimit,

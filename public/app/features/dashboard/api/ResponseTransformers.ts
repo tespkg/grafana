@@ -1017,6 +1017,7 @@ function transformV2PanelToV1Panel(
       timeFrom: panel.data.spec.queryOptions.timeFrom,
       timeShift: panel.data.spec.queryOptions.timeShift,
       transparent: panel.transparent,
+      floating: panel.floating,
       ...(repeat?.value && { repeat: repeat.value }),
       ...(repeat?.direction && { repeatDirection: repeat.direction }),
       ...(repeat?.maxPerRow && { maxPerRow: repeat.maxPerRow }),

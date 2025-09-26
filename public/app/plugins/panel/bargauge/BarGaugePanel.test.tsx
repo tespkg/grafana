@@ -113,6 +113,7 @@ function buildPanelData(overrideValues?: Partial<BarGaugePanelProps>): BarGaugeP
       },
     },
     transparent: false,
+    floating: false,
     timeRange,
     timeZone: 'utc',
     title: 'hello',

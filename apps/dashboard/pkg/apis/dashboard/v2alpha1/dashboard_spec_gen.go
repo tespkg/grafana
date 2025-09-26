@@ -130,6 +130,7 @@ type DashboardPanelSpec struct {
 	Data        DashboardQueryGroupKind `json:"data"`
 	VizConfig   DashboardVizConfigKind  `json:"vizConfig"`
 	Transparent *bool                   `json:"transparent,omitempty"`
+	Floating    *bool                   `json:"floating,omitempty"`
 }
 
 // NewDashboardPanelSpec creates a new DashboardPanelSpec object.

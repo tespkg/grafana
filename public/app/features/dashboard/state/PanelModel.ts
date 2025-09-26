@@ -106,6 +106,7 @@ const mustKeepProps: { [str: string]: boolean } = {
   queryCachingTTL: true,
   cachedPluginOptions: true,
   transparent: true,
+  floating: true,
   pluginVersion: true,
   queryRunner: true,
   transformations: true,
@@ -124,6 +125,7 @@ const defaults: any = {
   targets: [{ refId: 'A' }],
   cachedPluginOptions: {},
   transparent: false,
+  floating: false,
   options: {},
   links: [],
   transformations: [],
@@ -180,6 +182,7 @@ export class PanelModel implements DataConfigSource, IPanelModel {
   description?: string;
   links?: DataLink[];
   declare transparent: boolean;
+  declare floating: boolean;
 
   libraryPanel?: LibraryPanelRef | LibraryPanel;
 

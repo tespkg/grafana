@@ -77,6 +77,15 @@ export function getPanelFrameOptions(panel: VizPanel): OptionsPaneCategoryDescri
         },
       })
     )
+      .addItem(
+          new OptionsPaneItemDescriptor({
+              title: t('dashboard-scene.get-panel-frame-options.title.floating-panel', 'Floating panel'),
+              id: 'panel-frame-options-floating-panel',
+              render: function renderTransparent(descriptor) {
+                  return <PanelFloatingSwitch id={descriptor.props.id} panel={panel} />;
+              },
+          })
+      )
     .addCategory(
       new OptionsPaneCategoryDescriptor({
         title: t('dashboard-scene.get-panel-frame-options.title.panel-links', 'Panel links'),
@@ -185,6 +194,24 @@ export function PanelBackgroundSwitch({ panel, id }: { panel: VizPanel; id?: str
   };
 
   return <Switch value={displayMode === 'transparent'} id={id} onChange={onChange} />;
+}
+
+export function PanelFloatingSwitch({ panel, id }: { panel: VizPanel; id?: string }) {
+    const { floating } = panel.useState();
+    console.log('###PanelFloatingSwitch', panel.useState())
+
+    const onChange = () => {
+        const newFloatingMode = floating === true ? false : true;
+
+        dashboardEditActions.edit({
+            description: t('dashboard.edit-actions.panel-floating', 'Change panel floating'),
+            source: panel,
+            perform: () => panel.setState({ floating: newFloatingMode }),
+            undo: () => panel.setState({ floating: floating }),
+        });
+    };
+
+    return <Switch value={floating} id={id} onChange={onChange} />;
 }
 
 function updatePanelTitleState(panel: VizPanel, title: string) {

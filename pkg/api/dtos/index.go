@@ -34,6 +34,9 @@ type IndexViewData struct {
 	Nonce           string            `json:"-"`
 	NewsFeedEnabled bool              `json:"-"`
 	Assets          *EntryPointAssets `json:"assets"` // Includes CDN info
+
+	// (tespkg) add branding
+	LoginTitle string `json:"loginTitle"`
 }
 
 type EntryPointAssets struct {

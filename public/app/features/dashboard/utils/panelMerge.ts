@@ -12,7 +12,7 @@ export interface PanelMergeInfo {
 
 // Values that are safe to change without a full panel unmount/remount
 // TODO: options and fieldConfig should also be supported
-const mutableKeys = new Set<keyof PanelModel>(['gridPos', 'title', 'description', 'transparent']);
+const mutableKeys = new Set<keyof PanelModel>(['gridPos', 'title', 'description', 'transparent', 'floating']);
 
 export function mergePanels(current: PanelModel[], data: IPanelModel[]): PanelMergeInfo {
   const panels: PanelModel[] = [];

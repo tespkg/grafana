@@ -33,6 +33,7 @@ import { getDashboardSceneFor } from '../utils/utils';
 
 import { DeleteDashboardButton } from './DeleteDashboardButton';
 import { DashboardEditView, DashboardEditViewState, useDashboardEditPageNav } from './utils';
+import {PanelPicker} from "../../../core/components/Select/PanelPicker";
 
 export interface GeneralSettingsEditViewState extends DashboardEditViewState {
   showMoveModal?: boolean;
@@ -93,6 +94,10 @@ export class GeneralSettingsEditView
 
   public onTagsChange = (value: string[]) => {
     this._dashboard.setState({ tags: value });
+  };
+
+  public onSidepanelChange = (value?: number) => {
+    this._dashboard.setState({sidePanel: value});
   };
 
   public onFolderChange = async (newUID: string | undefined, newTitle: string | undefined) => {
@@ -284,6 +289,16 @@ function GeneralSettingsEditViewComponent({ model }: SceneComponentProps<General
           </Field>
           <Field noMargin label={t('dashboard-settings.general.tags-label', 'Tags')}>
             <TagsInput id="tags-input" tags={tags} onChange={model.onTagsChange} width={40} />
+          </Field>
+          <Field
+              label={t('dashboard-settings.general.side-panel-label', 'Side Panel')}
+              description={t('dashboard-settings.general.side-panel-description', 'Take a panel out of the grid and pin to left side. The size of the panel depend on it\'s original size')}
+          >
+            <PanelPicker
+                value={dashboard.state.sidePanel}
+                panels={dashboard.state.body.getVizPanels() || []}
+                onChange={(panelId) => model.onSidepanelChange(panelId)}
+            />
           </Field>
           <Field noMargin label={t('dashboard-settings.general.folder-label', 'Folder')}>
             <ProvisioningAwareFolderPicker

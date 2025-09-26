@@ -1,0 +1,12 @@
+diff --git a/dist/index.d.ts b/dist/index.d.ts
+index e59daa881d22c4c9c0dae8fa9217e7f3c7e978cd..5f602c2bf1a2d116a11aaaedb181daf967833edb 100644
+--- a/dist/index.d.ts
++++ b/dist/index.d.ts
+@@ -83,6 +83,7 @@ interface VizPanelProps {
+     dataProvider?: SceneDataProvider;
+     viz: VizConfig;
+     displayMode?: 'default' | 'transparent';
++    floating?: boolean;
+     hoverHeader?: boolean;
+     hoverHeaderOffset?: number;
+     menu?: VizPanelMenu;

@@ -95,6 +95,7 @@ export interface PanelSpec {
 	data: QueryGroupKind;
 	vizConfig: VizConfigKind;
 	transparent?: boolean;
+	floating?: boolean;
 }
 
 export const defaultPanelSpec = (): PanelSpec => ({

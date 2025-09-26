@@ -121,6 +121,7 @@ export function transformSceneToSaveModel(scene: DashboardScene, isSnapshot = fa
     id: state.id,
     editable: state.editable,
     preload: state.preload,
+    sidePanel: state.sidePanel,
     time: {
       from: timeRange.from,
       to: timeRange.to,
@@ -146,6 +147,7 @@ export function transformSceneToSaveModel(scene: DashboardScene, isSnapshot = fa
     // @ts-expect-error not in dashboard schema because it's experimental
     scopeMeta: state.scopeMeta,
   };
+
 
   return sortedDeepCloneWithoutNulls(dashboard, true);
 }
@@ -211,6 +213,7 @@ export function vizPanelToPanel(
       fieldConfig: (vizPanel.state.fieldConfig as FieldConfigSource) ?? { defaults: {}, overrides: [] },
       transformations: [],
       transparent: vizPanel.state.displayMode === 'transparent',
+      floating: vizPanel.state.floating,
       pluginVersion: vizPanel.state.pluginVersion,
       ...vizPanelDataToPanel(vizPanel, isSnapshot),
     };
@@ -357,6 +360,7 @@ export function panelRepeaterToPanels(repeater: DashboardGridItem, isSnapshot = 
         fieldConfig: (panel.state.fieldConfig as FieldConfigSource) ?? { defaults: {}, overrides: [] },
         transformations: [],
         transparent: panel.state.displayMode === 'transparent',
+        floating: panel.state.floating,
         // @ts-expect-error scopedVars are runtime only properties, not part of the persisted Dashboardmodel
         scopedVars: {
           [repeater.state.variableName!]: {

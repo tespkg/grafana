@@ -127,6 +127,7 @@ export interface BaseTableProps {
   maxRowHeight?: number;
   structureRev?: number;
   transparent?: boolean;
+  floating?: boolean;
   /** @alpha Used by SparklineCell when provided */
   timeRange?: TimeRange;
   enableSharedCrosshair?: boolean;

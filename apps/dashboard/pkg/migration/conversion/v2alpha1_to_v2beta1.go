@@ -168,6 +168,7 @@ func convertPanelKind_V2alpha1_to_V2beta1(in *dashv2alpha1.DashboardPanelKind, o
 	out.Spec.Title = in.Spec.Title
 	out.Spec.Description = in.Spec.Description
 	out.Spec.Transparent = in.Spec.Transparent
+	out.Spec.Floating = in.Spec.Floating
 
 	// Convert links
 	out.Spec.Links = make([]dashv2beta1.DashboardDataLink, len(in.Spec.Links))
