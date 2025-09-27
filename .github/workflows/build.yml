@@ -10,10 +10,21 @@ on:
 jobs:
   build_and_push_image:
     name: build and push docker image
-    runs-on: ubuntu-latest-large
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
+
+      - name: Free disk space
+        run: |
+          echo "Available space before cleanup:"
+          df -h
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          sudo rm -rf "/usr/local/share/boost"
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+          echo "Available space after cleanup:"
+          df -h
 
       - name: Build docker image
         run: DOCKER_BUILDKIT=1 docker build -t tespkg/grafana:${GITHUB_SHA} .
