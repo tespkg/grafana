@@ -169,6 +169,16 @@ func (s *JWT) retrieveToken(httpRequest *http.Request) string {
 	if jwtToken == "" && s.cfg.JWTAuth.URLLogin {
 		jwtToken = httpRequest.URL.Query().Get("auth_token")
 	}
+
+	if jwtToken == "" {
+		cookie, err := httpRequest.Cookie("__Secure-access_token")
+		if err == nil {
+			jwtToken = cookie.Value
+		} else {
+			s.log.Warn("Failed to get JWT token from cookie", "error", err)
+		}
+	}
+
 	// Strip the 'Bearer' prefix if it exists.
 	return strings.TrimPrefix(jwtToken, "Bearer ")
 }
