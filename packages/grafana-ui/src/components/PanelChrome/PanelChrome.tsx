@@ -15,6 +15,7 @@ import { useElementSelection } from '../ElementSelectionContext/ElementSelection
 import { Icon } from '../Icon/Icon';
 import { LoadingBar } from '../LoadingBar/LoadingBar';
 import { Text } from '../Text/Text';
+import { ToolbarButton } from '../ToolbarButton/ToolbarButton';
 import { Tooltip } from '../Tooltip/Tooltip';
 
 import { HoverWidget } from './HoverWidget';
@@ -34,6 +35,10 @@ interface BaseProps {
   description?: string | (() => string);
   titleItems?: ReactNode;
   menu?: ReactElement | (() => ReactElement);
+  viewButton?: ReactElement;
+  panelId?: number;
+  onViewPanel?: () => void;
+  onDownloadCSV?: () => void;
   dragClass?: string;
   dragClassCancel?: string;
   onDragStart?: (e: React.PointerEvent) => void;
@@ -128,6 +133,10 @@ export function PanelChrome({
   displayMode = 'default',
   titleItems,
   menu,
+  viewButton,
+  panelId,
+  onViewPanel,
+  onDownloadCSV,
   dragClass,
   dragClassCancel,
   hoverHeader = false,
@@ -155,6 +164,45 @@ export function PanelChrome({
   const panelTitleId = useId().replace(/:/g, '_');
   const { isSelected, onSelect, isSelectable } = useElementSelection(selectionId);
   const pointerDistance = usePointerDistance();
+
+  // Create internal view button if onViewPanel callback is provided
+  const internalViewButton = React.useMemo(() => {
+    if (onViewPanel) {
+      return (
+        <ToolbarButton
+          aria-label="View panel"
+          title="View"
+          icon="eye"
+          iconSize="md"
+          narrow
+          onClick={onViewPanel}
+          data-testid="panel-view-button"
+        />
+      );
+    }
+    return null;
+  }, [onViewPanel]);
+
+  // Create internal download button if onDownloadCSV callback is provided
+  const internalDownloadButton = React.useMemo(() => {
+    if (onDownloadCSV) {
+      return (
+        <ToolbarButton
+          aria-label="Download CSV"
+          title="Download CSV"
+          icon="download-alt"
+          iconSize="md"
+          narrow
+          onClick={onDownloadCSV}
+          data-testid="panel-download-csv-button"
+        />
+      );
+    }
+    return null;
+  }, [onDownloadCSV]);
+
+  // Use either the passed viewButton prop or the internally created one
+  const finalViewButton = viewButton || internalViewButton;
 
   const hasHeader = !hoverHeader;
 
@@ -356,6 +404,8 @@ export function PanelChrome({
         <>
           <HoverWidget
             menu={menu}
+            viewButton={finalViewButton}
+            downloadButton={internalDownloadButton}
             title={typeof title === 'string' ? title : undefined}
             offset={hoverHeaderOffset}
             dragClass={dragClass}
@@ -397,6 +447,9 @@ export function PanelChrome({
           )}
 
           {headerContent}
+
+          {finalViewButton && <div className={cx(dragClassCancel, showOnHoverClass)}>{finalViewButton}</div>}
+          {internalDownloadButton && <div className={cx(dragClassCancel, showOnHoverClass)}>{internalDownloadButton}</div>}
 
           {menu && (
             <PanelMenu
