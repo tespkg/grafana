@@ -13,15 +13,16 @@ import { PanelMenu } from './PanelMenu';
 interface Props {
   children?: React.ReactNode;
   menu?: ReactElement | (() => ReactElement);
-  viewButton?: ReactElement;
-  downloadButton?: ReactElement;
+  viewButton?: ReactElement | null;
+  downloadButton?: ReactElement | null;
+  tableViewButton?: ReactElement | null;
   title?: string;
   offset?: number;
   dragClass?: string;
   onOpenMenu?: () => void;
 }
 
-export function HoverWidget({ menu, viewButton, downloadButton, title, dragClass, children, offset = -32, onOpenMenu }: Props) {
+export function HoverWidget({ menu, viewButton, downloadButton, tableViewButton, title, dragClass, children, offset = -32, onOpenMenu }: Props) {
   const styles = useStyles2(getStyles);
   const draggableRef = useRef<HTMLDivElement>(null);
   const selectors = e2eSelectors.components.Panels.Panel.HoverWidget;
@@ -54,6 +55,7 @@ export function HoverWidget({ menu, viewButton, downloadButton, title, dragClass
       {children}
       {viewButton && <div className={styles.viewButton}>{viewButton}</div>}
       {downloadButton && <div className={styles.viewButton}>{downloadButton}</div>}
+      {tableViewButton && <div className={styles.viewButton}>{tableViewButton}</div>}
       {menu && (
         <PanelMenu
           menu={menu}

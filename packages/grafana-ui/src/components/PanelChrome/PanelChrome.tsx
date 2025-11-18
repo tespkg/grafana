@@ -39,6 +39,8 @@ interface BaseProps {
   panelId?: number;
   onViewPanel?: () => void;
   onDownloadCSV?: () => void;
+  onToggleTableView?: () => void;
+  isTableView?: boolean;
   dragClass?: string;
   dragClassCancel?: string;
   onDragStart?: (e: React.PointerEvent) => void;
@@ -137,6 +139,8 @@ export function PanelChrome({
   panelId,
   onViewPanel,
   onDownloadCSV,
+  onToggleTableView,
+  isTableView,
   dragClass,
   dragClassCancel,
   hoverHeader = false,
@@ -200,6 +204,24 @@ export function PanelChrome({
     }
     return null;
   }, [onDownloadCSV]);
+
+  // Create internal table view button if onToggleTableView callback is provided
+  const internalTableViewButton = React.useMemo(() => {
+    if (onToggleTableView) {
+      return (
+        <ToolbarButton
+          aria-label="Toggle table view"
+          title={isTableView ? "Chart view" : "Table view"}
+          icon="table"
+          iconSize="md"
+          narrow
+          onClick={onToggleTableView}
+          data-testid="panel-table-view-button"
+        />
+      );
+    }
+    return null;
+  }, [onToggleTableView, isTableView]);
 
   // Use either the passed viewButton prop or the internally created one
   const finalViewButton = viewButton || internalViewButton;
@@ -406,6 +428,7 @@ export function PanelChrome({
             menu={menu}
             viewButton={finalViewButton}
             downloadButton={internalDownloadButton}
+            tableViewButton={internalTableViewButton}
             title={typeof title === 'string' ? title : undefined}
             offset={hoverHeaderOffset}
             dragClass={dragClass}
@@ -450,6 +473,7 @@ export function PanelChrome({
 
           {finalViewButton && <div className={cx(dragClassCancel, showOnHoverClass)}>{finalViewButton}</div>}
           {internalDownloadButton && <div className={cx(dragClassCancel, showOnHoverClass)}>{internalDownloadButton}</div>}
+          {internalTableViewButton && <div className={cx(dragClassCancel, showOnHoverClass)}>{internalTableViewButton}</div>}
 
           {menu && (
             <PanelMenu

@@ -3589,7 +3589,7 @@ __metadata:
 
 "@grafana/scenes@patch:@grafana/scenes@npm%3A6.38.0#~/.yarn/patches/@grafana-scenes-npm-6.38.0-6818595d78.patch":
   version: 6.38.0
-  resolution: "@grafana/scenes@patch:@grafana/scenes@npm%3A6.38.0#~/.yarn/patches/@grafana-scenes-npm-6.38.0-6818595d78.patch::version=6.38.0&hash=f855ff"
+  resolution: "@grafana/scenes@patch:@grafana/scenes@npm%3A6.38.0#~/.yarn/patches/@grafana-scenes-npm-6.38.0-6818595d78.patch::version=6.38.0&hash=1f4600"
   dependencies:
     "@floating-ui/react": "npm:^0.26.16"
     "@leeoniya/ufuzzy": "npm:^1.0.16"
@@ -3609,7 +3609,7 @@ __metadata:
     react: ^18.0.0
     react-dom: ^18.0.0
     react-router-dom: ^6.28.0
-  checksum: 10/ec3c8fe1ec7b4a20e2f157ccfe8b22a6a133f2af181c6484ff6f3fd443b17c5d0da4474200c5aeb19e765a731786197a48a4b88b7428d85f353a6cdda42e5581
+  checksum: 10/f09b27f532507767e41b11836171040c654f556d4642456d36bcc6b4617c2fc77b9928d7385365d78d81d9ace614cba32996b6d58009713faa7eec0a01b306bd
   languageName: node
   linkType: hard
 
