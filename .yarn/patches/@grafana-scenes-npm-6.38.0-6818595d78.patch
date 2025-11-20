@@ -1,5 +1,5 @@
 diff --git a/dist/esm/components/VizPanel/VizPanelRenderer.js b/dist/esm/components/VizPanel/VizPanelRenderer.js
-index 0d918c4eb3b9423f59d43bc9902310b08315f313..c4fccbae79fa41d97c2af573713533495a891d54 100644
+index 0d918c4eb3b9423f59d43bc9902310b08315f313..77ff3b684b3365aa59223358c6aba471394da786 100644
 --- a/dist/esm/components/VizPanel/VizPanelRenderer.js
 +++ b/dist/esm/components/VizPanel/VizPanelRenderer.js
 @@ -1,5 +1,5 @@
@@ -9,7 +9,7 @@ index 0d918c4eb3b9423f59d43bc9902310b08315f313..c4fccbae79fa41d97c2af57371353349
  import { useMeasure } from 'react-use';
  import { SetPanelAttentionEvent, AlertState, PluginContextProvider } from '@grafana/data';
  import { getAppEvents } from '@grafana/runtime';
-@@ -12,265 +12,351 @@ import { VizPanelSeriesLimit } from './VizPanelSeriesLimit.js';
+@@ -12,265 +12,369 @@ import { VizPanelSeriesLimit } from './VizPanelSeriesLimit.js';
  import { useLazyLoaderIsInView } from '../layout/LazyLoader.js';
  
  function VizPanelRenderer({ model }) {
@@ -90,19 +90,37 @@ index 0d918c4eb3b9423f59d43bc9902310b08315f313..c4fccbae79fa41d97c2af57371353349
 +    const onToggleTableView = useCallback(() => {
 +        setIsTableView((prev) => {
 +            const newState = !prev;
-+            // When toggling to table view, change the plugin to 'table'
-+            // When toggling back, restore the original plugin
++
 +            if (newState) {
-+                // Store original plugin ID before switching
++                // Store original plugin ID AND options before switching
 +                if (!model.state._originalPluginId) {
-+                    model.setState({ _originalPluginId: model.state.pluginId });
++                    model.setState({
++                        _originalPluginId: model.state.pluginId,
++                        _originalOptions: model.state.options,
++                        _originalFieldConfig: model.state.fieldConfig,
++                        _renderCounter: (model.state._renderCounter || 0) + 1
++                    });
 +                }
 +                model.changePluginType('table');
 +            } else {
-+                // Restore original plugin
++                // Restore original plugin with its options
 +                const originalPlugin = model.state._originalPluginId || 'timeseries';
++                const originalOptions = model.state._originalOptions;
++                const originalFieldConfig = model.state._originalFieldConfig;
++
 +                model.changePluginType(originalPlugin);
++
++                // Restore the original options and field config after changing plugin type
++                model.setState({
++                    options: originalOptions,
++                    fieldConfig: originalFieldConfig,
++                    _originalPluginId: undefined,
++                    _originalOptions: undefined,
++                    _originalFieldConfig: undefined,
++                    _renderCounter: (model.state._renderCounter || 0) + 1
++                });
 +            }
++
 +            return newState;
 +        });
 +    }, [model]);
