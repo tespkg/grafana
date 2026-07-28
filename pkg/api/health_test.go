@@ -170,6 +170,19 @@ func TestHealthAPI_DatabaseHealthCached(t *testing.T) {
 	require.True(t, healthy.(bool))
 }
 
+func TestHealthAPI_Disabled(t *testing.T) {
+	m, _ := setupHealthAPITestEnvironment(t, func(cfg *setting.Cfg) {
+		cfg.HealthEndpointDisabled = true
+	})
+
+	req := httptest.NewRequest(http.MethodGet, "/api/health", nil)
+	rec := httptest.NewRecorder()
+	m.ServeHTTP(rec, req)
+
+	require.Equal(t, 404, rec.Code)
+	require.Empty(t, rec.Body.String())
+}
+
 func setupHealthAPITestEnvironment(t *testing.T, cbs ...func(*setting.Cfg)) (*web.Mux, *HTTPServer) {
 	t.Helper()
 

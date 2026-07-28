@@ -113,6 +113,10 @@ type Cfg struct {
 	EnforceDomain     bool
 	MinTLSVersion     string
 
+	// HealthEndpointDisabled makes the /api/health endpoint respond with 404.
+	// Set via [server] disable_health_endpoint or GF_SERVER_DISABLE_HEALTH_ENDPOINT.
+	HealthEndpointDisabled bool
+
 	// Security settings
 	SecretKey             string
 	EmailCodeValidMinutes int
@@ -1961,6 +1965,7 @@ func (cfg *Cfg) readServerSettings(iniFile *ini.File) error {
 
 	cfg.EnableGzip = server.Key("enable_gzip").MustBool(false)
 	cfg.EnforceDomain = server.Key("enforce_domain").MustBool(false)
+	cfg.HealthEndpointDisabled = server.Key("disable_health_endpoint").MustBool(false)
 	staticRoot := valueAsString(server, "static_root_path", "")
 	cfg.StaticRootPath = makeAbsolute(staticRoot, cfg.HomePath)
 

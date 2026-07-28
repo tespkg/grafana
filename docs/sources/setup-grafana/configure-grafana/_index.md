@@ -297,6 +297,12 @@ transfer speed and bandwidth utilization. It is recommended that most
 users set it to `true`. By default it is set to `false` for compatibility
 reasons.
 
+#### `disable_health_endpoint`
+
+Set this option to `true` to disable the `/api/health` endpoint. When disabled, requests to `/api/health` respond with `404 Not Found`. Default is `false`.
+
+Note that this does not affect the `/healthz` liveness endpoint.
+
 #### `cert_file`
 
 Path to the certificate file (if `protocol` is set to `https` or `h2`).

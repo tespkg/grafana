@@ -715,6 +715,11 @@ func (hs *HTTPServer) apiHealthHandler(ctx *web.Context) {
 		return
 	}
 
+	if hs.Cfg.HealthEndpointDisabled {
+		ctx.Resp.WriteHeader(http.StatusNotFound)
+		return
+	}
+
 	data := healthResponse{
 		Database: "ok",
 	}
